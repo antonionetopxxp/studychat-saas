@@ -434,6 +434,7 @@
             <textarea id="explicacaoAdm" placeholder="Explicação"></textarea>
             <button id="salvarQuestao">Salvar Questão</button>
             <button class="fechar">Fechar</button>
+            <src="https://cdn.jsdelivr.net/npm/chart.js">
         </div>
     </div>
 
@@ -515,46 +516,5 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // JavaScript from your provided code
-        // ===================== STATE =====================
-        let questoes = [];
-        let atual = null;
-        let usuarioAtual = null;
-        let stats = {
-            total: 0,
-            acertos: 0,
-            erros: 0,
-            streak: 0,
-            historico: [],
-            favoritos: []
-        };
-
-        // ===================== INIT =====================
-        window.onload = () => {
-            carregarLocal();
-            carregarEventos();
-            atualizarUI();
-        };
-
-        // ===================== LOCAL STORAGE =====================
-        function salvarLocal() {
-            localStorage.setItem("studychat_stats", JSON.stringify(stats));
-        }
-
-        function carregarLocal() {
-            const data = localStorage.getItem("studychat_stats");
-            if (data) stats = JSON.parse(data);
-        }
-
-        // ===================== EVENTOS =====================
-        function carregarEventos() {
-            document.getElementById("novaQuestao").onclick = novaQuestao;
-            document.getElementById("proxima").onclick = novaQuestao;
-
-            document.querySelectorAll(".alternativa").forEach(btn => {
-                btn.onclick = () => responder(btn.getAttribute("data"));
-            });
-
-           
+    
