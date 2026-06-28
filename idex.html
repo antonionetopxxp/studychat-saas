@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyChat Pro</title>
+    <title>StudyChat - SEDES DF</title>
     <style>
-        /* CSS from your provided code */
         * {
             margin: 0;
             padding: 0;
@@ -16,125 +15,12 @@
         body {
             background: #0f172a;
             color: #e2e8f0;
-        }
-
-        /* ================= LOADING ================= */
-        #loading {
-            position: fixed;
-            inset: 0;
-            background: #0f172a;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .loader {
-            width: 60px;
-            height: 60px;
-            border: 6px solid #334155;
-            border-top: 6px solid #38bdf8;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
-        }
-
-        /* ================= APP ================= */
-        #app {
-            display: flex;
             height: 100vh;
-        }
-
-        /* ================= SIDEBAR ================= */
-        .sidebar {
-            width: 260px;
-            background: #111827;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            border-right: 1px solid #1f2937;
-        }
-
-        .logo h1 {
-            font-size: 20px;
-            color: #38bdf8;
-        }
-
-        .logo p {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        .perfil {
-            text-align: center;
-        }
-
-        .perfil img {
-            width: 60px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-
-        .progresso {
-            background: #0f172a;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        .barra {
-            width: 100%;
-            height: 8px;
-            background: #1f2937;
-            border-radius: 10px;
-            margin-top: 5px;
-        }
-
-        .barra-preenchimento {
-            width: 30%;
-            height: 8px;
-            background: #38bdf8;
-            border-radius: 10px;
-        }
-
-        /* ================= MENU ================= */
-        nav {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .menu {
-            padding: 10px;
-            background: transparent;
-            border: 1px solid #1f2937;
-            color: #e2e8f0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .menu:hover {
-            background: #1e293b;
-        }
-
-        .menu.ativo {
-            background: #38bdf8;
-            color: #0f172a;
-        }
-
-        /* ================= CHAT ================= */
-        .chat {
-            flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        .topo {
+        header {
             padding: 20px;
             background: #111827;
             display: flex;
@@ -147,33 +33,33 @@
             flex: 1;
             padding: 20px;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .mensagem {
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
+            max-width: 80%;
         }
 
-        .mensagem.bot .icone {
+        .bot .icone {
             color: #38bdf8;
         }
 
-        /* ================= FOOTER CHAT ================= */
-        .rodapeChat {
-            padding: 15px;
-            background: #111827;
-            border-top: 1px solid #1f2937;
+        .usuario .icone {
+            color: #4ade80;
         }
 
         .alternativas {
             display: flex;
             gap: 10px;
-            margin-bottom: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
         }
 
         .alternativa {
-            flex: 1;
             padding: 10px;
             border: 1px solid #334155;
             background: transparent;
@@ -181,19 +67,20 @@
             border-radius: 8px;
             cursor: pointer;
             transition: 0.2s;
+            flex: 1;
         }
 
         .alternativa:hover {
             background: #1e293b;
         }
 
-        .acoesQuestao {
+        .acoes {
             display: flex;
             gap: 10px;
+            margin-top: 10px;
         }
 
-        .acoesQuestao button {
-            flex: 1;
+        .acoes button {
             padding: 8px;
             border-radius: 8px;
             border: none;
@@ -202,47 +89,16 @@
             color: white;
         }
 
-        /* ================= PAINEL ================= */
-        .painel {
-            width: 260px;
-            background: #111827;
-            border-left: 1px solid #1f2937;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .card {
-            background: #0f172a;
+        footer {
             padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        /* ================= MODAIS ================= */
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .janela {
-            width: 90%;
-            max-width: 500px;
             background: #111827;
-            padding: 20px;
-            border-radius: 10px;
+            border-top: 1px solid #1f2937;
             display: flex;
-            flex-direction: column;
             gap: 10px;
         }
 
-        .janela input,
-        .janela textarea {
+        #resposta {
+            flex: 1;
             padding: 10px;
             border-radius: 8px;
             border: none;
@@ -250,271 +106,219 @@
             color: white;
         }
 
-        .janela button {
+        #enviar {
             padding: 10px;
-            border: none;
             border-radius: 8px;
+            border: none;
+            cursor: pointer;
             background: #38bdf8;
             color: #0f172a;
-            cursor: pointer;
         }
 
-        .fechar {
-            background: #ef4444 !important;
-            color: white !important;
+        .dica, .resposta {
+            padding: 10px;
+            background: #0f172a;
+            border-radius: 8px;
+            margin: 10px 0;
         }
 
-        /* ================= RESPONSIVO ================= */
-        @media (max-width: 900px) {
-            .sidebar {
-                display: none;
-            }
+        .resposta.certa {
+            border-left: 4px solid #4ade80;
+        }
 
-            .painel {
-                display: none;
-            }
+        .resposta.errada {
+            border-left: 4px solid #ef4444;
         }
     </style>
 </head>
 <body>
-
-<div id="loading">
-    <div class="loader"></div>
-    <h2>Carregando StudyChat...</h2>
-</div>
-
-<div id="app">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <h1>📚 StudyChat</h1>
-            <p>Concurso SEDES DF</p>
+    <header>
+        <h1>📚 StudyChat - SEDES DF</h1>
+        <div>
+            <span>Matéria: </span>
+            <select id="materias">
+                <option value="constituicao">Constituição Federal</option>
+                <option value="portugues">Português</option>
+                <option value="informatica">Informática</option>
+            </select>
         </div>
-        <div class="perfil">
-            <img src="img/avatar.png" id="avatar">
-            <h3>Antonio Neto</h3>
-            <p>Assistente Administrativo</p>
-        </div>
-        <div class="progresso">
-            <span>Nível de Estudos</span>
-            <div class="barra">
-                <div class="barra-preenchimento" id="xp"></div>
-            </div>
-            <p id="nivel">Nível 1</p>
-        </div>
-        <nav>
-            <button class="menu ativo">🏠 Início</button>
-            <button class="menu">💬 Chat</button>
-            <button class="menu">📝 Questões</button>
-            <button class="menu">📂 Biblioteca</button>
-            <button class="menu">🧠 FlashCards</button>
-            <button class="menu">⭐ Favoritos</button>
-            <button class="menu">📊 Estatísticas</button>
-            <button class="menu">⏱ Simulado</button>
-            <button class="menu">⚙ Configurações</button>
-        </nav>
-    </aside>
+    </header>
 
-    <!-- Chat Section -->
-    <main class="chat">
-        <header class="topo">
-            <div>
-                <h2>Assistente de Estudos</h2>
-                <p id="materiaAtual">Constituição Federal</p>
+    <main id="mensagens">
+        <div class="mensagem bot">
+            <div class="icone">🤖</div>
+            <div class="texto">
+                Olá! Vamos estudar? Clique em "Nova Questão".
             </div>
-            <div class="acoesTopo">
-                <button id="modoEscuro">🌙</button>
-                <button id="reiniciar">♻</button>
-            </div>
-        </header>
-        <section id="mensagens">
-            <div class="mensagem bot">
-                <div class="icone">🤖</div>
-                <div class="texto">
-                    <h4>StudyChat</h4>
-                    <p>Olá Antonio! Vamos estudar? Clique em "Nova Questão".</p>
-                </div>
-            </div>
-        </section>
-        <footer class="rodapeChat">
-            <div class="questaoAtual">
-                <p id="pergunta">Clique em Nova Questão.</p>
-            </div>
-            <div class="alternativas">
-                <button class="alternativa" data="A">A</button>
-                <button class="alternativa" data="B">B</button>
-                <button class="alternativa" data="C">C</button>
-                <button class="alternativa" data="D">D</button>
-            </div>
-            <div class="acoesQuestao">
-                <button id="novaQuestao">Nova Questão</button>
-                <button id="dica">💡 Dica</button>
-                <button id="explicacao">📖 Explicação</button>
-                <button id="favoritar">⭐</button>
-                <button id="proxima">➡</button>
-            </div>
-        </footer>
+        </div>
     </main>
 
-    <!-- Stats Panel -->
-    <aside class="painel">
-        <div class="card">
-            <h3>Questões</h3>
-            <h1 id="total">0</h1>
-        </div>
-        <div class="card">
-            <h3>Acertos</h3>
-            <h1 id="acertos">0</h1>
-        </div>
-        <div class="card">
-            <h3>Erros</h3>
-            <h1 id="erros">0</h1>
-        </div>
-        <div class="card">
-            <h3>Aproveitamento</h3>
-            <h1 id="percentual">0%</h1>
-        </div>
-        <div class="card">
-            <h3>Tempo</h3>
-            <h1 id="tempo">00:00</h1>
-        </div>
-        <div class="card">
-            <h3>Sequência</h3>
-            <h1 id="streak">0</h1>
-        </div>
-    </aside>
-
-    <!-- Modals -->
-    <div id="biblioteca" class="modal">
-        <div class="janela">
-            <h2>Minha Biblioteca</h2>
-            <input type="file" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp4,.mp3">
-            <div id="listaArquivos"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="flashcards" class="modal">
-        <div class="janela">
-            <h2>FlashCards</h2>
-            <div id="listaFlash"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="estatisticas" class="modal">
-        <div class="janela">
-            <h2>Meu Desempenho</h2>
-            <canvas id="grafico"></canvas>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="importador" class="modal">
-        <div class="janela">
-            <h2>Importar Questões (JSON)</h2>
-            <p>Envie um arquivo JSON com suas questões</p>
-            <input type="file" id="fileJson" accept=".json">
-            <textarea id="previewJson" placeholder="Pré-visualização..." readonly></textarea>
-            <button id="btnImportar">Importar</button>
-            <button class="fechar">Fechar</button>
-            <button onclick="loginGoogle()">Entrar com Google</button>
-        </div>
-    </div>
-
-    <div id="admin" class="modal">
-        <div class="janela">
-            <h2>Painel Administrativo</h2>
-            <input type="text" id="novaPergunta" placeholder="Nova pergunta">
-            <input type="text" id="opA" placeholder="Alternativa A">
-            <input type="text" id="opB" placeholder="Alternativa B">
-            <input type="text" id="opC" placeholder="Alternativa C">
-            <input type="text" id="opD" placeholder="Alternativa D">
-            <input type="text" id="correta" placeholder="Resposta correta (A/B/C/D)">
-            <textarea id="explicacaoAdm" placeholder="Explicação"></textarea>
-            <button id="salvarQuestao">Salvar Questão</button>
-            <button class="fechar">Fechar</button>
-            <src="https://cdn.jsdelivr.net/npm/chart.js">
-        </div>
-    </div>
-
-    <div id="busca" class="modal">
-        <div class="janela">
-            <h2>Buscar por Matéria</h2>
-            <input type="text" id="inputBusca" placeholder="Ex: Constituição, Português...">
-            <div id="resultadosBusca"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="historico" class="modal">
-        <div class="janela">
-            <h2>Histórico de Respostas</h2>
-            <div id="listaHistorico"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="revisao" class="modal">
-        <div class="janela">
-            <h2>Revisão Inteligente</h2>
-            <p>Questões que você mais errou aparecerão aqui</p>
-            <div id="listaRevisao"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="simulado" class="modal">
-        <div class="janela">
-            <h2>Simulado Cronometrado</h2>
-            <div class="timer">⏱ <span id="tempoSimulado">00:00</span></div>
-            <div id="questaoSimulado"></div>
-            <button id="finalizarSimulado">Finalizar</button>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="calendario" class="modal">
-        <div class="janela">
-            <h2>Calendário de Estudos</h2>
-            <input type="date" id="dataEstudo">
-            <textarea id="metaDia" placeholder="O que você vai estudar hoje?"></textarea>
-            <button id="salvarMeta">Salvar</button>
-            <div id="listaMetas"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="notificacoes" class="modal">
-        <div class="janela">
-            <h2>Notificações</h2>
-            <div id="listaNotificacoes"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
-
-    <div id="config" class="modal">
-        <div class="janela">
-            <h2>Configurações</h2>
-            <label>
-                Nome do usuário
-                <input type="text" id="nomeUser">
-            </label>
-            <label>
-                Tema escuro
-                <input type="checkbox" id="temaEscuro">
-            </label>
-            <label>
-                Notificações
-                <input type="checkbox" id="ativarNotif">
-            </label>
-            <label>
-                Resetar progresso
-                <button id="resetarDados">Resetar</button>
-            </label>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
+    <footer>
+        <input type="text" id="resposta" placeholder="Sua resposta...">
+        <button id="enviar">Enviar</button>
+        <button id="novaQuestao">Nova Questão</button>
+        <button id="dica">Dica</button>
+        <button id="explicacao">Explicação</button>
+        <button id="favoritar">⭐</button>
+    </footer>
 
     <script>
-    
+        // Estado da aplicação
+        let questoes = [
+            {
+                id: 1,
+                pergunta: "Qual é a data da promulgação da Constituição Federal?",
+                alternativas: ["A) 5 de outubro de 1988", "B) 5 de outubro de 1989", "C) 10 de novembro de 1988", "D) 10 de novembro de 1989"],
+                correta: "A",
+                dica: "Lembre-se do ano de 1988",
+                explicacao: "A Constituição Federal foi promulgada em 5 de outubro de 1988.",
+                materia: "constituicao"
+            },
+            {
+                id: 2,
+                pergunta: "Qual é a capital do Brasil?",
+                alternativas: ["A) São Paulo", "B) Rio de Janeiro", "C) Brasília", "D) Recife"],
+                correta: "C",
+                dica: "É a cidade mais importante do país",
+                explicacao: "Brasília é a capital do Brasil e está localizada na região Centro-Oeste.",
+                materia: "constituicao"
+            }
+        ];
+
+        let questaoAtual = null;
+        let usuarioAtual = {
+            nome: "Antonio Neto",
+            nivel: 1
+        };
+
+        // Funções auxiliares
+        function exibirMensagem(tipo, texto) {
+            const div = document.createElement("div");
+            div.className = `mensagem ${tipo}`;
+            
+            div.innerHTML = `
+                <div class="icone">${tipo === "bot" ? "🤖" : "👤"}</div>
+                <div class="texto">${texto}</div>
+            `;
+            
+            document.getElementById("mensagens").appendChild(div);
+            document.getElementById("mensagens").scrollTop = document.getElementById("mensagens").scrollHeight;
+        }
+
+        function limparRespostas() {
+            const alternativas = document.querySelector(".alternativas");
+            if (alternativas) alternativas.remove();
+            
+            const acoes = document.querySelector(".acoes");
+            if (acoes) acoes.remove();
+            
+            const dica = document.querySelector(".dica");
+            if (dica) dica.remove();
+            
+            const resposta = document.querySelector(".resposta");
+            if (resposta) resposta.remove();
+        }
+
+        // Eventos
+        document.getElementById("novaQuestao").addEventListener("click", () => {
+            limparRespostas();
+            
+            const materias = document.getElementById("materias").value;
+            const questoesFiltradas = questoes.filter(q => q.materia === materias);
+            
+            if (questoesFiltradas.length === 0) {
+                exibirMensagem("bot", "Nenhuma questão disponível para esta matéria.");
+                return;
+            }
+            
+            questaoAtual = questoesFiltradas[Math.floor(Math.random() * questoesFiltradas.length)];
+            exibirMensagem("bot", questaoAtual.pergunta);
+            
+            // Adicionar alternativas
+            const alternativas = document.createElement("div");
+            alternativas.className = "alternativas";
+            
+            questaoAtual.alternativas.forEach(alternativa => {
+                const btn = document.createElement("button");
+                btn.className = "alternativa";
+                btn.textContent = alternativa;
+                btn.addEventListener("click", () => {
+                    const resposta = alternativa.charAt(0);
+                    verificarResposta(resposta);
+                });
+                alternativas.appendChild(btn);
+            });
+            
+            document.querySelector("footer").prepend(alternativas);
+            
+            // Adicionar ações
+            const acoes = document.createElement("div");
+            acoes.className = "acoes";
+            
+            const dicaBtn = document.createElement("button");
+            dicaBtn.textContent = "Dica";
+            dicaBtn.addEventListener("click", () => {
+                exibirMensagem("bot", "💡 " + questaoAtual.dica);
+            });
+            
+            const explicacaoBtn = document.createElement("button");
+            explicacaoBtn.textContent = "Explicação";
+            explicacaoBtn.addEventListener("click", () => {
+                exibirMensagem("bot", "📖 " + questaoAtual.explicacao);
+            });
+            
+            acoes.appendChild(dicaBtn);
+            acoes.appendChild(explicacaoBtn);
+            document.querySelector("footer").prepend(acoes);
+        });
+
+        function verificarResposta(resposta) {
+            if (!questaoAtual) return;
+            
+            const certa = resposta.toUpperCase() === questaoAtual.correta.toUpperCase();
+            
+            // Adicionar feedback visual
+            document.querySelectorAll(".alternativa").forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent.includes(questaoAtual.correta)) {
+                    btn.style.background = certa ? "#4ade80" : "#ef4444";
+                } else if (btn.textContent.includes(resposta)) {
+                    btn.style.background = "#ef4444";
+                }
+            });
+            
+            // Adicionar resposta
+            const respostaDiv = document.createElement("div");
+            respostaDiv.className = `resposta ${certa ? "certa" : "errada"}`;
+            respostaDiv.textContent = certa 
+                ? "✅ Correto!" 
+                : `❌ Incorreto! Resposta correta: ${questaoAtual.correta}`;
+            document.querySelector("footer").prepend(respostaDiv);
+            
+            // Exibir feedback
+            exibirMensagem("bot", certa 
+                ? "Parabéns! Você acertou." 
+                : `Tente novamente! Resposta correta: ${questaoAtual.correta}`);
+                
+            // Adicionar ação favoritar
+            const favoritarBtn = document.querySelector("#favoritar");
+            favoritarBtn.onclick = () => {
+                exibirMensagem("bot", "⭐ Questão adicionada aos favoritos!");
+            };
+        }
+
+        document.getElementById("enviar").addEventListener("click", () => {
+            const resposta = document.getElementById("resposta").value.trim();
+            if (resposta) {
+                verificarResposta(resposta);
+                document.getElementById("resposta").value = "";
+            }
+        });
+
+        // Inicializar
+        window.onload = () => {
+            exibirMensagem("bot", "Olá, " + usuarioAtual.nome + "! Vamos estudar?");
+        };
+    </script>
+</body>
+</html>
