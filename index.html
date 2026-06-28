@@ -1,258 +1,576 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyChat Pro</title>
 
     <link rel="stylesheet" href="style.css">
+
     <link rel="manifest" href="manifest.json">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <script defer src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <div id="loading">
+
     <div class="loader"></div>
+
     <h2>Carregando StudyChat...</h2>
+
 </div>
 
 <div id="app">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <h1>📚 StudyChat</h1>
-            <p>Concurso SEDES DF</p>
-        </div>
-        <div class="perfil">
-            <img src="img/avatar.png" id="avatar">
-            <h3>Antonio Neto</h3>
-            <p>Assistente Administrativo</p>
-        </div>
-        <div class="progresso">
-            <span>Nível de Estudos</span>
-            <div class="barra">
-                <div class="barra-preenchimento" id="xp"></div>
-            </div>
-            <p id="nivel">Nível 1</p>
-        </div>
-        <nav>
-            <button class="menu ativo">🏠 Início</button>
-            <button class="menu">💬 Chat</button>
-            <button class="menu">📝 Questões</button>
-            <button class="menu">📂 Biblioteca</button>
-            <button class="menu">🧠 FlashCards</button>
-            <button class="menu">⭐ Favoritos</button>
-            <button class="menu">📊 Estatísticas</button>
-            <button class="menu">⏱ Simulado</button>
-            <button class="menu">⚙ Configurações</button>
-        </nav>
-    </aside>
 
-    <!-- Chat Section -->
-    <main class="chat">
-        <header class="topo">
-            <div>
-                <h2>Assistente de Estudos</h2>
-                <p id="materiaAtual">Constituição Federal</p>
-            </div>
-            <div class="acoesTopo">
-                <button id="modoEscuro">🌙</button>
-                <button id="reiniciar">♻</button>
-            </div>
-        </header>
-        <section id="mensagens">
-            <div class="mensagem bot">
-                <div class="icone">🤖</div>
-                <div class="texto">
-                    <h4>StudyChat</h4>
-                    <p>Olá Antonio! Vamos estudar? Clique em "Nova Questão".</p>
-                </div>
-            </div>
-        </section>
-        <footer class="rodapeChat">
-            <div class="questaoAtual">
-                <p id="pergunta">Clique em Nova Questão.</p>
-            </div>
-            <div class="alternativas">
-                <button class="alternativa" data="A">A</button>
-                <button class="alternativa" data="B">B</button>
-                <button class="alternativa" data="C">C</button>
-                <button class="alternativa" data="D">D</button>
-            </div>
-            <div class="acoesQuestao">
-                <button id="novaQuestao">Nova Questão</button>
-                <button id="dica">💡 Dica</button>
-                <button id="explicacao">📖 Explicação</button>
-                <button id="favoritar">⭐</button>
-                <button id="proxima">➡</button>
-            </div>
-        </footer>
-    </main>
+<!-- ================= SIDEBAR ================= -->
 
-    <!-- Stats Panel -->
-    <aside class="painel">
-        <div class="card">
-            <h3>Questões</h3>
-            <h1 id="total">0</h1>
-        </div>
-        <div class="card">
-            <h3>Acertos</h3>
-            <h1 id="acertos">0</h1>
-        </div>
-        <div class="card">
-            <h3>Erros</h3>
-            <h1 id="erros">0</h1>
-        </div>
-        <div class="card">
-            <h3>Aproveitamento</h3>
-            <h1 id="percentual">0%</h1>
-        </div>
-        <div class="card">
-            <h3>Tempo</h3>
-            <h1 id="tempo">00:00</h1>
-        </div>
-        <div class="card">
-            <h3>Sequência</h3>
-            <h1 id="streak">0</h1>
-        </div>
-    </aside>
+<aside class="sidebar">
 
-    <!-- Modals -->
-    <div id="biblioteca" class="modal">
-        <div class="janela">
-            <h2>Minha Biblioteca</h2>
-            <input type="file" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp4,.mp3">
-            <div id="listaArquivos"></div>
-            <button class="fechar">Fechar</button>
-        </div>
+<div class="logo">
+
+<h1>📚 StudyChat</h1>
+
+<p>Concurso SEDES DF</p>
+
+</div>
+
+<div class="perfil">
+
+<img src="img/avatar.png" id="avatar">
+
+<h3>Antonio Neto</h3>
+
+<p>Assistente Administrativo</p>
+
+</div>
+
+<div class="progresso">
+
+<span>Nível de Estudos</span>
+
+<div class="barra">
+
+<div class="barra-preenchimento" id="xp"></div>
+
+</div>
+
+<p id="nivel">Nível 1</p>
+
+</div>
+
+<nav>
+
+<button class="menu ativo">
+
+🏠 Início
+
+</button>
+
+<button class="menu">
+
+💬 Chat
+
+</button>
+
+<button class="menu">
+
+📝 Questões
+
+</button>
+
+<button class="menu">
+
+📂 Biblioteca
+
+</button>
+
+<button class="menu">
+
+🧠 FlashCards
+
+</button>
+
+<button class="menu">
+
+⭐ Favoritos
+
+</button>
+
+<button class="menu">
+
+📊 Estatísticas
+
+</button>
+
+<button class="menu">
+
+⏱ Simulado
+
+</button>
+
+<button class="menu">
+
+⚙ Configurações
+
+</button>
+
+</nav>
+
+</aside>
+
+<!-- ================= CHAT ================= -->
+
+<main class="chat">
+
+<header class="topo">
+
+<div>
+
+<h2>Assistente de Estudos</h2>
+
+<p id="materiaAtual">
+
+Constituição Federal
+
+</p>
+
+</div>
+
+<div class="acoesTopo">
+
+<button id="modoEscuro">
+
+🌙
+
+</button>
+
+<button id="reiniciar">
+
+♻
+
+</button>
+
+</div>
+
+</header>
+
+<section id="mensagens">
+
+<div class="mensagem bot">
+
+<div class="icone">
+
+🤖
+
+</div>
+
+<div class="texto">
+
+<h4>StudyChat</h4>
+
+<p>
+
+Olá Antonio!
+
+Vamos estudar?
+
+Clique em "Nova Questão".
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<footer class="rodapeChat">
+
+<div class="questaoAtual">
+
+<p id="pergunta">
+
+Clique em Nova Questão.
+
+</p>
+
+</div>
+
+<div class="alternativas">
+
+<button class="alternativa" data="A">
+
+A
+
+</button>
+
+<button class="alternativa" data="B">
+
+B
+
+</button>
+
+<button class="alternativa" data="C">
+
+C
+
+</button>
+
+<button class="alternativa" data="D">
+
+D
+
+</button>
+
+</div>
+
+<div class="acoesQuestao">
+
+<button id="novaQuestao">
+
+Nova Questão
+
+</button>
+
+<button id="dica">
+
+💡 Dica
+
+</button>
+
+<button id="explicacao">
+
+📖 Explicação
+
+</button>
+
+<button id="favoritar">
+
+⭐
+
+</button>
+
+<button id="proxima">
+
+➡
+
+</button>
+
+</div>
+
+</footer>
+
+</main>
+
+<!-- ================= PAINEL ================= -->
+
+<aside class="painel">
+
+<div class="card">
+
+<h3>Questões</h3>
+
+<h1 id="total">
+
+0
+
+</h1>
+
+</div>
+
+<div class="card">
+
+<h3>Acertos</h3>
+
+<h1 id="acertos">
+
+0
+
+</h1>
+
+</div>
+
+<div class="card">
+
+<h3>Erros</h3>
+
+<h1 id="erros">
+
+0
+
+</h1>
+
+</div>
+
+<div class="card">
+
+<h3>Aproveitamento</h3>
+
+<h1 id="percentual">
+
+0%
+
+</h1>
+
+</div>
+
+<div class="card">
+
+<h3>Tempo</h3>
+
+<h1 id="tempo">
+
+00:00
+
+</h1>
+
+</div>
+
+<div class="card">
+
+<h3>Sequência</h3>
+
+<h1 id="streak">
+
+0
+
+</h1>
+
+</div>
+
+</aside>
+
+</div>
+
+<!-- ================= BIBLIOTECA ================= -->
+
+<div id="biblioteca" class="modal">
+
+<div class="janela">
+
+<h2>Minha Biblioteca</h2>
+
+<input type="file"
+multiple
+accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp4,.mp3">
+
+<div id="listaArquivos">
+
+</div>
+
+<button class="fechar">
+
+Fechar
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= FLASHCARDS ================= -->
+
+<div id="flashcards" class="modal">
+
+<div class="janela">
+
+<h2>FlashCards</h2>
+
+<div id="listaFlash">
+
+</div>
+
+<button class="fechar">
+
+Fechar
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= ESTATÍSTICAS ================= -->
+
+<div id="estatisticas" class="modal">
+
+<div class="janela">
+
+<h2>Meu Desempenho</h2>
+
+<canvas id="grafico"></canvas>
+
+<button class="fechar">
+
+Fechar
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= IMPORTADOR JSON ================= -->
+<div id="importador" class="modal">
+    <div class="janela">
+        <h2>Importar Questões (JSON)</h2>
+
+        <p>Envie um arquivo JSON com suas questões</p>
+
+        <input type="file" id="fileJson" accept=".json">
+
+        <textarea id="previewJson" placeholder="Pré-visualização..." readonly></textarea>
+
+        <button id="btnImportar">Importar</button>
+
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <div id="flashcards" class="modal">
-        <div class="janela">
-            <h2>FlashCards</h2>
-            <div id="listaFlash"></div>
-            <button class="fechar">Fechar</button>
-        </div>
+<!-- ================= PAINEL ADMIN ================= -->
+<div id="admin" class="modal">
+    <div class="janela">
+        <h2>Painel Administrativo</h2>
+
+        <input type="text" id="novaPergunta" placeholder="Nova pergunta">
+
+        <input type="text" id="opA" placeholder="Alternativa A">
+        <input type="text" id="opB" placeholder="Alternativa B">
+        <input type="text" id="opC" placeholder="Alternativa C">
+        <input type="text" id="opD" placeholder="Alternativa D">
+
+        <input type="text" id="correta" placeholder="Resposta correta (A/B/C/D)">
+
+        <textarea id="explicacaoAdm" placeholder="Explicação"></textarea>
+
+        <button id="salvarQuestao">Salvar Questão</button>
+
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <div id="estatisticas" class="modal">
-        <div class="janela">
-            <h2>Meu Desempenho</h2>
-            <canvas id="grafico"></canvas>
-            <button class="fechar">Fechar</button>
-        </div>
+<!-- ================= BUSCA POR MATÉRIA ================= -->
+<div id="busca" class="modal">
+    <div class="janela">
+        <h2>Buscar por Matéria</h2>
+
+        <input type="text" id="inputBusca" placeholder="Ex: Constituição, Português...">
+
+        <div id="resultadosBusca"></div>
+
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <div id="importador" class="modal">
-        <div class="janela">
-            <h2>Importar Questões (JSON)</h2>
-            <p>Envie um arquivo JSON com suas questões</p>
-            <input type="file" id="fileJson" accept=".json">
-            <textarea id="previewJson" placeholder="Pré-visualização..." readonly></textarea>
-            <button id="btnImportar">Importar</button>
-            <button class="fechar">Fechar</button>
-            <button onclick="loginGoogle()">Entrar com Google</button>
-        </div>
+<!-- ================= HISTÓRICO ================= -->
+<div id="historico" class="modal">
+    <div class="janela">
+        <h2>Histórico de Respostas</h2>
+
+        <div id="listaHistorico"></div>
+
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <div id="admin" class="modal">
-        <div class="janela">
-            <h2>Painel Administrativo</h2>
-            <input type="text" id="novaPergunta" placeholder="Nova pergunta">
-            <input type="text" id="opA" placeholder="Alternativa A">
-            <input type="text" id="opB" placeholder="Alternativa B">
-            <input type="text" id="opC" placeholder="Alternativa C">
-            <input type="text" id="opD" placeholder="Alternativa D">
-            <input type="text" id="correta" placeholder="Resposta correta (A/B/C/D)">
-            <textarea id="explicacaoAdm" placeholder="Explicação"></textarea>
-            <button id="salvarQuestao">Salvar Questão</button>
-            <button class="fechar">Fechar</button>
-        </div>
+<!-- ================= REVISÃO INTELIGENTE ================= -->
+<div id="revisao" class="modal">
+    <div class="janela">
+        <h2>Revisão Inteligente</h2>
+
+        <p>Questões que você mais errou aparecerão aqui</p>
+
+        <div id="listaRevisao"></div>
+
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <div id="busca" class="modal">
-        <div class="janela">
-            <h2>Buscar por Matéria</h2>
-            <input type="text" id="inputBusca" placeholder="Ex: Constituição, Português...">
-            <div id="resultadosBusca"></div>
-            <button class="fechar">Fechar</button>
+<!-- ================= SIMULADO ================= -->
+<div id="simulado" class="modal">
+    <div class="janela">
+        <h2>Simulado Cronometrado</h2>
+
+        <div class="timer">
+            ⏱ <span id="tempoSimulado">00:00</span>
         </div>
-    </div>
 
-    <div id="historico" class="modal">
-        <div class="janela">
-            <h2>Histórico de Respostas</h2>
-            <div id="listaHistorico"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
+        <div id="questaoSimulado"></div>
 
-    <div id="revisao" class="modal">
-        <div class="janela">
-            <h2>Revisão Inteligente</h2>
-            <p>Questões que você mais errou aparecerão aqui</p>
-            <div id="listaRevisao"></div>
-            <button class="fechar">Fechar</button>
-        </div>
-    </div>
+        <button id="finalizarSimulado">Finalizar</button>
 
-    <div id="simulado" class="modal">
-        <div class="janela">
-            <h2>Simulado Cronometrado</h2>
-            <div class="timer">⏱ <span id="tempoSimulado">00:00</span></div>
-            <div id="questaoSimulado"></div>
-            <button id="finalizarSimulado">Finalizar</button>
-            <button class="fechar">Fechar</button>
-        </div>
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <div id="calendario" class="modal">
-        <div class="janela">
-            <h2>Calendário de Estudos</h2>
-            <input type="date" id="dataEstudo">
-            <textarea id="metaDia" placeholder="O que você vai estudar hoje?"></textarea>
-            <button id="salvarMeta">Salvar</button>
-            <div id="listaMetas"></div>
-            <button class="fechar">Fechar</button>
-        </div>
+<!-- ================= CALENDÁRIO ================= -->
+<div id="calendario" class="modal">
+    <div class="janela">
+        <h2>Calendário de Estudos</h2>
+
+        <input type="date" id="dataEstudo">
+
+        <textarea id="metaDia" placeholder="O que você vai estudar hoje?"></textarea>
+
+        <button id="salvarMeta">Salvar</button>
+
+        <div id="listaMetas"></div>
+
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <div id="notificacoes" class="modal">
-        <div class="janela">
-            <h2>Notificações</h2>
-            <div id="listaNotificacoes"></div>
-            <button class="fechar">Fechar</button>
-        </div>
+<!-- ================= NOTIFICAÇÕES ================= -->
+<div id="notificacoes" class="modal">
+    <div class="janela">
+        <h2>Notificações</h2>
+
+        <div id="listaNotificacoes"></div>
+
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <div id="config" class="modal">
-        <div class="janela">
-            <h2>Configurações</h2>
-            <label>
-                Nome do usuário
-                <input type="text" id="nomeUser">
-            </label>
-            <label>
-                Tema escuro
-                <input type="checkbox" id="temaEscuro">
-            </label>
-            <label>
-                Notificações
-                <input type="checkbox" id="ativarNotif">
-            </label>
-            <label>
-                Resetar progresso
-                <button id="resetarDados">Resetar</button>
-            </label>
-            <button class="fechar">Fechar</button>
-        </div>
+<!-- ================= CONFIGURAÇÕES ================= -->
+<div id="config" class="modal">
+    <div class="janela">
+        <h2>Configurações</h2>
+
+        <label>
+            Nome do usuário
+            <input type="text" id="nomeUser">
+        </label>
+
+        <label>
+            Tema escuro
+            <input type="checkbox" id="temaEscuro">
+        </label>
+
+        <label>
+            Notificações
+            <input type="checkbox" id="ativarNotif">
+        </label>
+
+        <label>
+            Resetar progresso
+            <button id="resetarDados">Resetar</button>
+        </label>
+
+        <button class="fechar">Fechar</button>
     </div>
+</div>
 
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="script.js"></script>
 </body>
+
 </html>
+```
