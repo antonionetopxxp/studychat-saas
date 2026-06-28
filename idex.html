@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyChat - SEDES DF</title>
     <style>
+        /* CSS from your previous code */
         * {
             margin: 0;
             padding: 0;
@@ -129,6 +130,14 @@
         .resposta.errada {
             border-left: 4px solid #ef4444;
         }
+
+        /* Firebase auth styles */
+        #authStatus {
+            margin-left: 20px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: #1e293b;
+        }
     </style>
 </head>
 <body>
@@ -141,6 +150,7 @@
                 <option value="portugues">Português</option>
                 <option value="informatica">Informática</option>
             </select>
+            <div id="authStatus"></div>
         </div>
     </header>
 
@@ -160,9 +170,30 @@
         <button id="dica">Dica</button>
         <button id="explicacao">Explicação</button>
         <button id="favoritar">⭐</button>
+        <button id="login">Login</button>
     </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore-compat.js"></script>
     <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBO0Ml85drfObZMl00FGGskR9bqHVkQ02k",
+            authDomain: "studychat-saas.firebaseapp.com",
+            projectId: "studychat-saas",
+            storageBucket: "studychat-saas.firebasestorage.app",
+            messagingSenderId: "336469459364",
+            appId: "1:336469459364:web:2767036983bcb1f6ff0131"
+        };
+
+        // Inicializa Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Referências para Firebase services
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
         // Estado da aplicação
         let questoes = [
             {
@@ -186,10 +217,7 @@
         ];
 
         let questaoAtual = null;
-        let usuarioAtual = {
-            nome: "Antonio Neto",
-            nivel: 1
-        };
+        let usuarioAtual = null;
 
         // Funções auxiliares
         function exibirMensagem(tipo, texto) {
@@ -219,9 +247,26 @@
             if (resposta) resposta.remove();
         }
 
-        // Eventos
-        document.getElementById("novaQuestao").addEventListener("click", () => {
+        // Firebase auth functions
+        function updateUserStatus(user) {
+            if (user) {
+                usuarioAtual = user;
+                document.getElementById("authStatus").textContent = 
+                    `👤 ${user.displayName || user.email}`;
+            } else {
+                usuarioAtual = null;
+                document.getElementById("authStatus").textContent = "Login necessário";
+            }
+        }
+
+        // Event listeners
+        document.getElementById("novaQuestao").addEventListener("click", async () => {
             limparRespostas();
+            
+            if (!usuarioAtual) {
+                exibirMensagem("bot", "Faça login para continuar.");
+                return;
+            }
             
             const materias = document.getElementById("materias").value;
             const questoesFiltradas = questoes.filter(q => q.materia === materias);
@@ -273,7 +318,7 @@
         });
 
         function verificarResposta(resposta) {
-            if (!questaoAtual) return;
+            if (!questaoAtual || !usuarioAtual) return;
             
             const certa = resposta.toUpperCase() === questaoAtual.correta.toUpperCase();
             
@@ -300,6 +345,15 @@
                 ? "Parabéns! Você acertou." 
                 : `Tente novamente! Resposta correta: ${questaoAtual.correta}`);
                 
+            // Salvar progresso no Firestore
+            db.collection("usuarios").doc(usuarioAtual.uid).collection("questoes")
+                .add({
+                    questaoId: questaoAtual.id,
+                    resposta: resposta,
+                    correta: certa,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
             // Adicionar ação favoritar
             const favoritarBtn = document.querySelector("#favoritar");
             favoritarBtn.onclick = () => {
@@ -315,9 +369,32 @@
             }
         });
 
+        document.getElementById("login").addEventListener("click", () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .catch(err => {
+                    exibirMensagem("bot", "Erro ao fazer login: " + err.message);
+                });
+        });
+
+        // Monitora mudanças de autenticação
+        auth.onAuthStateChanged(user => {
+            updateUserStatus(user);
+            
+            if (user) {
+                // Carrega progresso do usuário
+                db.collection("usuarios").doc(user.uid).collection("questoes")
+                    .get()
+                    .then(snapshot => {
+                        const progresso = snapshot.size;
+                        exibirMensagem("bot", `Bem-vindo de volta! Você respondeu ${progresso} questões.`);
+                    });
+            }
+        });
+
         // Inicializar
         window.onload = () => {
-            exibirMensagem("bot", "Olá, " + usuarioAtual.nome + "! Vamos estudar?");
+            exibirMensagem("bot", "Olá! Faça login para começar a estudar.");
         };
     </script>
 </body>
