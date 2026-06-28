@@ -1,5 +1,5 @@
 // ===================== STATE =====================
-
+import { loginGoogle, observarUsuario, salvarProgresso, carregarProgresso } from "./firebase.js";
 let questoes = [];
 let atual = null;
 
