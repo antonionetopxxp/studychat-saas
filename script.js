@@ -291,3 +291,97 @@ function novaQuestao() {
 
     adicionarMensagem("bot", "📘 Nova questão carregada!");
 }
+let grafico = null;
+
+function atualizarGrafico() {
+
+    const ctx = document.getElementById("grafico");
+
+    if (!ctx) return;
+
+    if (grafico) grafico.destroy();
+
+    grafico = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: ["Acertos", "Erros"],
+            datasets: [{
+                data: [stats.acertos, stats.erros],
+                backgroundColor: ["#22c55e", "#ef4444"],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+}
+let revisaoEspacada = [];
+
+function registrarResposta(q, certo) {
+
+    let hoje = Date.now();
+
+    revisaoEspacada.push({
+        pergunta: q.pergunta,
+        correta: q.correta,
+        proximaRevisao: certo ? hoje + 86400000 : hoje + 300000 // 1 dia ou 5 min
+    });
+
+    localStorage.setItem("revisao", JSON.stringify(revisaoEspacada));
+}
+function carregarRevisao() {
+
+    let dados = JSON.parse(localStorage.getItem("revisao")) || [];
+
+    let agora = Date.now();
+
+    let prontos = dados.filter(q => q.proximaRevisao <= agora);
+
+    if (prontos.length > 0) {
+        atual = prontos[Math.floor(Math.random() * prontos.length)];
+        document.getElementById("pergunta").innerText = atual.pergunta;
+
+        adicionarMensagem("bot", "🔁 Revisão inteligente ativada!");
+    }
+}
+function calcularNivel() {
+
+    let xp = stats.acertos * 10;
+
+    let nivel = Math.floor(xp / 100) + 1;
+
+    document.getElementById("nivel").innerText = "Nível " + nivel;
+
+    let progresso = (xp % 100);
+
+    document.getElementById("xp").style.width = progresso + "%";
+}
+calcularNivel();
+
+let disciplinaAtual = "geral";
+
+function filtrarDisciplina(nome) {
+
+    disciplinaAtual = nome;
+
+    let filtradas = questoes.filter(q => q.disciplina === nome);
+
+    if (filtradas.length > 0) {
+        atual = filtradas[Math.floor(Math.random() * filtradas.length)];
+        document.getElementById("pergunta").innerText = atual.pergunta;
+    }
+}
+function buscarQuestao(texto) {
+
+    let resultado = questoes.filter(q =>
+        q.pergunta.toLowerCase().includes(texto.toLowerCase())
+    );
+
+    if (resultado.length > 0) {
+        atual = resultado[0];
+        document.getElementById("pergunta").innerText = atual.pergunta;
+    } else {
+        alert("Nada encontrado");
+    }
+}
