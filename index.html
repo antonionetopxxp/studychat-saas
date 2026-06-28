@@ -3,399 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyChat - SEDES DF</title>
-    <style>
-        /* CSS from your previous code */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+    <title>StudyChat Pro</title>
 
-        body {
-            background: #0f172a;
-            color: #e2e8f0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            padding: 20px;
-            background: #111827;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #1f2937;
-        }
-
-        #mensagens {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .mensagem {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            max-width: 80%;
-        }
-
-        .bot .icone {
-            color: #38bdf8;
-        }
-
-        .usuario .icone {
-            color: #4ade80;
-        }
-
-        .alternativas {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-        }
-
-        .alternativa {
-            padding: 10px;
-            border: 1px solid #334155;
-            background: transparent;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            flex: 1;
-        }
-
-        .alternativa:hover {
-            background: #1e293b;
-        }
-
-        .acoes {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .acoes button {
-            padding: 8px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            background: #1f2937;
-            color: white;
-        }
-
-        footer {
-            padding: 15px;
-            background: #111827;
-            border-top: 1px solid #1f2937;
-            display: flex;
-            gap: 10px;
-        }
-
-        #resposta {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            background: #0f172a;
-            color: white;
-        }
-
-        #enviar {
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            background: #38bdf8;
-            color: #0f172a;
-        }
-
-        .dica, .resposta {
-            padding: 10px;
-            background: #0f172a;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        .resposta.certa {
-            border-left: 4px solid #4ade80;
-        }
-
-        .resposta.errada {
-            border-left: 4px solid #ef4444;
-        }
-
-        /* Firebase auth styles */
-        #authStatus {
-            margin-left: 20px;
-            padding: 5px 10px;
-            border-radius: 4px;
-            background: #1e293b;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script defer src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>
-        <h1>📚 StudyChat - SEDES DF</h1>
-        <div>
-            <span>Matéria: </span>
-            <select id="materias">
-                <option value="constituicao">Constituição Federal</option>
-                <option value="portugues">Português</option>
-                <option value="informatica">Informática</option>
-            </select>
-            <div id="authStatus"></div>
-        </div>
-    </header>
 
-    <main id="mensagens">
-        <div class="mensagem bot">
-            <div class="icone">🤖</div>
-            <div class="texto">
-                Olá! Vamos estudar? Clique em "Nova Questão".
-            </div>
+<div id="loading">
+    <div class="loader"></div>
+    <h2>Carregando StudyChat...</h2>
+</div>
+
+<div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h1>📚 StudyChat</h1>
+            <p>Concurso SEDES DF</p>
         </div>
+        <div class="perfil">
+            <img src="img/avatar.png" id="avatar">
+            <h3>Antonio Neto</h3>
+            <p>Assistente Administrativo</p>
+        </div>
+        <div class="progresso">
+            <span>Nível de Estudos</span>
+            <div class="barra">
+                <div class="barra-preenchimento" id="xp"></div>
+            </div>
+            <p id="nivel">Nível 1</p>
+        </div>
+        <nav>
+            <button class="menu ativo">🏠 Início</button>
+            <button class="menu">💬 Chat</button>
+            <button class="menu">📝 Questões</button>
+            <button class="menu">📂 Biblioteca</button>
+            <button class="menu">🧠 FlashCards</button>
+            <button class="menu">⭐ Favoritos</button>
+            <button class="menu">📊 Estatísticas</button>
+            <button class="menu">⏱ Simulado</button>
+            <button class="menu">⚙ Configurações</button>
+        </nav>
+    </aside>
+
+    <!-- Chat Section -->
+    <main class="chat">
+        <header class="topo">
+            <div>
+                <h2>Assistente de Estudos</h2>
+                <p id="materiaAtual">Constituição Federal</p>
+            </div>
+            <div class="acoesTopo">
+                <button id="modoEscuro">🌙</button>
+                <button id="reiniciar">♻</button>
+            </div>
+        </header>
+        <section id="mensagens">
+            <div class="mensagem bot">
+                <div class="icone">🤖</div>
+                <div class="texto">
+                    <h4>StudyChat</h4>
+                    <p>Olá Antonio! Vamos estudar? Clique em "Nova Questão".</p>
+                </div>
+            </div>
+        </section>
+        <footer class="rodapeChat">
+            <div class="questaoAtual">
+                <p id="pergunta">Clique em Nova Questão.</p>
+            </div>
+            <div class="alternativas">
+                <button class="alternativa" data="A">A</button>
+                <button class="alternativa" data="B">B</button>
+                <button class="alternativa" data="C">C</button>
+                <button class="alternativa" data="D">D</button>
+            </div>
+            <div class="acoesQuestao">
+                <button id="novaQuestao">Nova Questão</button>
+                <button id="dica">💡 Dica</button>
+                <button id="explicacao">📖 Explicação</button>
+                <button id="favoritar">⭐</button>
+                <button id="proxima">➡</button>
+            </div>
+        </footer>
     </main>
 
-    <footer>
-        <input type="text" id="resposta" placeholder="Sua resposta...">
-        <button id="enviar">Enviar</button>
-        <button id="novaQuestao">Nova Questão</button>
-        <button id="dica">Dica</button>
-        <button id="explicacao">Explicação</button>
-        <button id="favoritar">⭐</button>
-        <button id="login">Login</button>
-    </footer>
+    <!-- Stats Panel -->
+    <aside class="painel">
+        <div class="card">
+            <h3>Questões</h3>
+            <h1 id="total">0</h1>
+        </div>
+        <div class="card">
+            <h3>Acertos</h3>
+            <h1 id="acertos">0</h1>
+        </div>
+        <div class="card">
+            <h3>Erros</h3>
+            <h1 id="erros">0</h1>
+        </div>
+        <div class="card">
+            <h3>Aproveitamento</h3>
+            <h1 id="percentual">0%</h1>
+        </div>
+        <div class="card">
+            <h3>Tempo</h3>
+            <h1 id="tempo">00:00</h1>
+        </div>
+        <div class="card">
+            <h3>Sequência</h3>
+            <h1 id="streak">0</h1>
+        </div>
+    </aside>
 
-    <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore-compat.js"></script>
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBO0Ml85drfObZMl00FGGskR9bqHVkQ02k",
-            authDomain: "studychat-saas.firebaseapp.com",
-            projectId: "studychat-saas",
-            storageBucket: "studychat-saas.firebasestorage.app",
-            messagingSenderId: "336469459364",
-            appId: "1:336469459364:web:2767036983bcb1f6ff0131"
-        };
+    <!-- Modals -->
+    <div id="biblioteca" class="modal">
+        <div class="janela">
+            <h2>Minha Biblioteca</h2>
+            <input type="file" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp4,.mp3">
+            <div id="listaArquivos"></div>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        // Inicializa Firebase
-        firebase.initializeApp(firebaseConfig);
+    <div id="flashcards" class="modal">
+        <div class="janela">
+            <h2>FlashCards</h2>
+            <div id="listaFlash"></div>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        // Referências para Firebase services
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+    <div id="estatisticas" class="modal">
+        <div class="janela">
+            <h2>Meu Desempenho</h2>
+            <canvas id="grafico"></canvas>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        // Estado da aplicação
-        let questoes = [
-            {
-                id: 1,
-                pergunta: "Qual é a data da promulgação da Constituição Federal?",
-                alternativas: ["A) 5 de outubro de 1988", "B) 5 de outubro de 1989", "C) 10 de novembro de 1988", "D) 10 de novembro de 1989"],
-                correta: "A",
-                dica: "Lembre-se do ano de 1988",
-                explicacao: "A Constituição Federal foi promulgada em 5 de outubro de 1988.",
-                materia: "constituicao"
-            },
-            {
-                id: 2,
-                pergunta: "Qual é a capital do Brasil?",
-                alternativas: ["A) São Paulo", "B) Rio de Janeiro", "C) Brasília", "D) Recife"],
-                correta: "C",
-                dica: "É a cidade mais importante do país",
-                explicacao: "Brasília é a capital do Brasil e está localizada na região Centro-Oeste.",
-                materia: "constituicao"
-            }
-        ];
+    <div id="importador" class="modal">
+        <div class="janela">
+            <h2>Importar Questões (JSON)</h2>
+            <p>Envie um arquivo JSON com suas questões</p>
+            <input type="file" id="fileJson" accept=".json">
+            <textarea id="previewJson" placeholder="Pré-visualização..." readonly></textarea>
+            <button id="btnImportar">Importar</button>
+            <button class="fechar">Fechar</button>
+            <button onclick="loginGoogle()">Entrar com Google</button>
+        </div>
+    </div>
 
-        let questaoAtual = null;
-        let usuarioAtual = null;
+    <div id="admin" class="modal">
+        <div class="janela">
+            <h2>Painel Administrativo</h2>
+            <input type="text" id="novaPergunta" placeholder="Nova pergunta">
+            <input type="text" id="opA" placeholder="Alternativa A">
+            <input type="text" id="opB" placeholder="Alternativa B">
+            <input type="text" id="opC" placeholder="Alternativa C">
+            <input type="text" id="opD" placeholder="Alternativa D">
+            <input type="text" id="correta" placeholder="Resposta correta (A/B/C/D)">
+            <textarea id="explicacaoAdm" placeholder="Explicação"></textarea>
+            <button id="salvarQuestao">Salvar Questão</button>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        // Funções auxiliares
-        function exibirMensagem(tipo, texto) {
-            const div = document.createElement("div");
-            div.className = `mensagem ${tipo}`;
-            
-            div.innerHTML = `
-                <div class="icone">${tipo === "bot" ? "🤖" : "👤"}</div>
-                <div class="texto">${texto}</div>
-            `;
-            
-            document.getElementById("mensagens").appendChild(div);
-            document.getElementById("mensagens").scrollTop = document.getElementById("mensagens").scrollHeight;
-        }
+    <div id="busca" class="modal">
+        <div class="janela">
+            <h2>Buscar por Matéria</h2>
+            <input type="text" id="inputBusca" placeholder="Ex: Constituição, Português...">
+            <div id="resultadosBusca"></div>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        function limparRespostas() {
-            const alternativas = document.querySelector(".alternativas");
-            if (alternativas) alternativas.remove();
-            
-            const acoes = document.querySelector(".acoes");
-            if (acoes) acoes.remove();
-            
-            const dica = document.querySelector(".dica");
-            if (dica) dica.remove();
-            
-            const resposta = document.querySelector(".resposta");
-            if (resposta) resposta.remove();
-        }
+    <div id="historico" class="modal">
+        <div class="janela">
+            <h2>Histórico de Respostas</h2>
+            <div id="listaHistorico"></div>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        // Firebase auth functions
-        function updateUserStatus(user) {
-            if (user) {
-                usuarioAtual = user;
-                document.getElementById("authStatus").textContent = 
-                    `👤 ${user.displayName || user.email}`;
-            } else {
-                usuarioAtual = null;
-                document.getElementById("authStatus").textContent = "Login necessário";
-            }
-        }
+    <div id="revisao" class="modal">
+        <div class="janela">
+            <h2>Revisão Inteligente</h2>
+            <p>Questões que você mais errou aparecerão aqui</p>
+            <div id="listaRevisao"></div>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        // Event listeners
-        document.getElementById("novaQuestao").addEventListener("click", async () => {
-            limparRespostas();
-            
-            if (!usuarioAtual) {
-                exibirMensagem("bot", "Faça login para continuar.");
-                return;
-            }
-            
-            const materias = document.getElementById("materias").value;
-            const questoesFiltradas = questoes.filter(q => q.materia === materias);
-            
-            if (questoesFiltradas.length === 0) {
-                exibirMensagem("bot", "Nenhuma questão disponível para esta matéria.");
-                return;
-            }
-            
-            questaoAtual = questoesFiltradas[Math.floor(Math.random() * questoesFiltradas.length)];
-            exibirMensagem("bot", questaoAtual.pergunta);
-            
-            // Adicionar alternativas
-            const alternativas = document.createElement("div");
-            alternativas.className = "alternativas";
-            
-            questaoAtual.alternativas.forEach(alternativa => {
-                const btn = document.createElement("button");
-                btn.className = "alternativa";
-                btn.textContent = alternativa;
-                btn.addEventListener("click", () => {
-                    const resposta = alternativa.charAt(0);
-                    verificarResposta(resposta);
-                });
-                alternativas.appendChild(btn);
-            });
-            
-            document.querySelector("footer").prepend(alternativas);
-            
-            // Adicionar ações
-            const acoes = document.createElement("div");
-            acoes.className = "acoes";
-            
-            const dicaBtn = document.createElement("button");
-            dicaBtn.textContent = "Dica";
-            dicaBtn.addEventListener("click", () => {
-                exibirMensagem("bot", "💡 " + questaoAtual.dica);
-            });
-            
-            const explicacaoBtn = document.createElement("button");
-            explicacaoBtn.textContent = "Explicação";
-            explicacaoBtn.addEventListener("click", () => {
-                exibirMensagem("bot", "📖 " + questaoAtual.explicacao);
-            });
-            
-            acoes.appendChild(dicaBtn);
-            acoes.appendChild(explicacaoBtn);
-            document.querySelector("footer").prepend(acoes);
-        });
+    <div id="simulado" class="modal">
+        <div class="janela">
+            <h2>Simulado Cronometrado</h2>
+            <div class="timer">⏱ <span id="tempoSimulado">00:00</span></div>
+            <div id="questaoSimulado"></div>
+            <button id="finalizarSimulado">Finalizar</button>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        function verificarResposta(resposta) {
-            if (!questaoAtual || !usuarioAtual) return;
-            
-            const certa = resposta.toUpperCase() === questaoAtual.correta.toUpperCase();
-            
-            // Adicionar feedback visual
-            document.querySelectorAll(".alternativa").forEach(btn => {
-                btn.disabled = true;
-                if (btn.textContent.includes(questaoAtual.correta)) {
-                    btn.style.background = certa ? "#4ade80" : "#ef4444";
-                } else if (btn.textContent.includes(resposta)) {
-                    btn.style.background = "#ef4444";
-                }
-            });
-            
-            // Adicionar resposta
-            const respostaDiv = document.createElement("div");
-            respostaDiv.className = `resposta ${certa ? "certa" : "errada"}`;
-            respostaDiv.textContent = certa 
-                ? "✅ Correto!" 
-                : `❌ Incorreto! Resposta correta: ${questaoAtual.correta}`;
-            document.querySelector("footer").prepend(respostaDiv);
-            
-            // Exibir feedback
-            exibirMensagem("bot", certa 
-                ? "Parabéns! Você acertou." 
-                : `Tente novamente! Resposta correta: ${questaoAtual.correta}`);
-                
-            // Salvar progresso no Firestore
-            db.collection("usuarios").doc(usuarioAtual.uid).collection("questoes")
-                .add({
-                    questaoId: questaoAtual.id,
-                    resposta: resposta,
-                    correta: certa,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-            // Adicionar ação favoritar
-            const favoritarBtn = document.querySelector("#favoritar");
-            favoritarBtn.onclick = () => {
-                exibirMensagem("bot", "⭐ Questão adicionada aos favoritos!");
-            };
-        }
+    <div id="calendario" class="modal">
+        <div class="janela">
+            <h2>Calendário de Estudos</h2>
+            <input type="date" id="dataEstudo">
+            <textarea id="metaDia" placeholder="O que você vai estudar hoje?"></textarea>
+            <button id="salvarMeta">Salvar</button>
+            <div id="listaMetas"></div>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        document.getElementById("enviar").addEventListener("click", () => {
-            const resposta = document.getElementById("resposta").value.trim();
-            if (resposta) {
-                verificarResposta(resposta);
-                document.getElementById("resposta").value = "";
-            }
-        });
+    <div id="notificacoes" class="modal">
+        <div class="janela">
+            <h2>Notificações</h2>
+            <div id="listaNotificacoes"></div>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        document.getElementById("login").addEventListener("click", () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider)
-                .catch(err => {
-                    exibirMensagem("bot", "Erro ao fazer login: " + err.message);
-                });
-        });
+    <div id="config" class="modal">
+        <div class="janela">
+            <h2>Configurações</h2>
+            <label>
+                Nome do usuário
+                <input type="text" id="nomeUser">
+            </label>
+            <label>
+                Tema escuro
+                <input type="checkbox" id="temaEscuro">
+            </label>
+            <label>
+                Notificações
+                <input type="checkbox" id="ativarNotif">
+            </label>
+            <label>
+                Resetar progresso
+                <button id="resetarDados">Resetar</button>
+            </label>
+            <button class="fechar">Fechar</button>
+        </div>
+    </div>
 
-        // Monitora mudanças de autenticação
-        auth.onAuthStateChanged(user => {
-            updateUserStatus(user);
-            
-            if (user) {
-                // Carrega progresso do usuário
-                db.collection("usuarios").doc(user.uid).collection("questoes")
-                    .get()
-                    .then(snapshot => {
-                        const progresso = snapshot.size;
-                        exibirMensagem("bot", `Bem-vindo de volta! Você respondeu ${progresso} questões.`);
-                    });
-            }
-        });
-
-        // Inicializar
-        window.onload = () => {
-            exibirMensagem("bot", "Olá! Faça login para começar a estudar.");
-        };
-    </script>
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
