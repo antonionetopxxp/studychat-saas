@@ -203,3 +203,91 @@ function fecharModais() {
         m.style.display = "none";
     });
 }
+let tempoSimulado = 0;
+let intervaloSimulado = null;
+let simuladoAtivo = false;
+
+function iniciarSimulado() {
+
+    if (questoes.length === 0) {
+        alert("Importe questões primeiro!");
+        return;
+    }
+
+    simuladoAtivo = true;
+    tempoSimulado = 0;
+
+    intervaloSimulado = setInterval(() => {
+        tempoSimulado++;
+
+        let min = String(Math.floor(tempoSimulado / 60)).padStart(2, "0");
+        let seg = String(tempoSimulado % 60).padStart(2, "0");
+
+        document.getElementById("tempoSimulado").innerText = `${min}:${seg}`;
+
+    }, 1000);
+
+    novaQuestao();
+}
+
+function finalizarSimulado() {
+    simuladoAtivo = false;
+    clearInterval(intervaloSimulado);
+
+    alert(`Simulado finalizado!\nAcertos: ${stats.acertos}\nErros: ${stats.erros}`);
+}
+function revisarQuestoes() {
+
+    let erros = stats.historico.filter(q => q.certo === false);
+
+    if (erros.length === 0) {
+        alert("Nenhuma questão para revisar!");
+        return;
+    }
+
+    atual = erros[Math.floor(Math.random() * erros.length)];
+
+    document.getElementById("pergunta").innerText = atual.pergunta;
+
+    adicionarMensagem("bot", "🔁 Revisando questão que você errou!");
+}
+function notificar(msg) {
+
+    if (!("Notification" in window)) return;
+
+    if (Notification.permission === "granted") {
+        new Notification("StudyChat", {
+            body: msg
+        });
+    }
+}
+
+function pedirPermissaoNotif() {
+    if ("Notification" in window) {
+        Notification.requestPermission();
+    }
+}
+if (!certo) {
+
+    stats.erros++;
+    stats.streak = 0;
+
+    // joga de volta para revisão futura
+    questoes.push(atual);
+}
+function novaQuestao() {
+
+    if (questoes.length === 0) {
+        alert("Importe um JSON de questões primeiro!");
+        return;
+    }
+
+    // prioriza questões erradas
+    let pool = questoes;
+
+    atual = pool[Math.floor(Math.random() * pool.length)];
+
+    document.getElementById("pergunta").innerText = atual.pergunta;
+
+    adicionarMensagem("bot", "📘 Nova questão carregada!");
+}
