@@ -188,6 +188,45 @@ function importarJSON(e) {
             alert("Erro ao ler JSON");
         }
     };
+    function exportarDados() {
+
+    const dados = {
+        stats,
+        questoes,
+        revisaoEspacada
+    };
+
+    const blob = new Blob([JSON.stringify(dados)], { type: "application/json" });
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = "backup-studychat.json";
+
+    link.click();
+}
+
+function importarDados(event) {
+
+    const file = event.target.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = e => {
+        const dados = JSON.parse(e.target.result);
+
+        stats = dados.stats || stats;
+        questoes = dados.questoes || questoes;
+        revisaoEspacada = dados.revisaoEspacada || [];
+
+        salvarLocal();
+        atualizarUI();
+
+        alert("Dados importados com sucesso!");
+    };
+
+    reader.readAsText(file);
+}
 
     reader.readAsText(file);
 }
@@ -344,6 +383,24 @@ function carregarRevisao() {
 
         adicionarMensagem("bot", "🔁 Revisão inteligente ativada!");
     }
+
+    function salvarBancoLocal() {
+
+    localStorage.setItem("questoesDB", JSON.stringify(questoes));
+}
+    setInterval(() => {
+    salvarLocal();
+    salvarBancoLocal();
+}, 5000);
+
+function carregarBancoLocal() {
+
+    let dados = localStorage.getItem("questoesDB");
+
+    if (dados) {
+        questoes = JSON.parse(dados);
+    }
+}
 }
 function calcularNivel() {
 
@@ -384,4 +441,10 @@ function buscarQuestao(texto) {
     } else {
         alert("Nada encontrado");
     }
+}
+// ===================== PWA INSTALL =====================
+
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js")
+        .then(() => console.log("PWA ativado"));
 }
