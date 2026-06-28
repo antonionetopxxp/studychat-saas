@@ -3,6 +3,23 @@ import { loginGoogle, observarUsuario, salvarProgresso, carregarProgresso } from
 let questoes = [];
 let atual = null;
 
+let usuarioAtual = null;
+
+observarUsuario(async (user) => {
+
+    if (user) {
+        usuarioAtual = user;
+
+        let dados = await carregarProgresso(user.uid);
+
+        if (dados) {
+            stats = dados.stats;
+            questoes = dados.questoes;
+        }
+
+    }
+});
+
 let stats = {
     total: 0,
     acertos: 0,
@@ -21,6 +38,17 @@ window.onload = () => {
 };
 
 // ===================== LOCAL STORAGE =====================
+
+async function salvarProgressoNuvem() {
+
+    if (!usuarioAtual) return;
+
+    await salvarProgresso(usuarioAtual.uid, {
+        stats,
+        questoes,
+        revisaoEspacada
+    });
+}
 
 function salvarLocal() {
     localStorage.setItem("studychat_stats", JSON.stringify(stats));
@@ -402,6 +430,9 @@ function carregarBancoLocal() {
     }
 }
 }
+setInterval(() => {
+    salvarProgressoNuvem();
+}, 5000);
 function calcularNivel() {
 
     let xp = stats.acertos * 10;
