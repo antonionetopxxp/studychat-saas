@@ -14,30 +14,32 @@ import {
 
 // Configuração do seu projeto
 const firebaseConfig = {
-  apiKey: "COLE_AQUI",
-  authDomain: "COLE_AQUI",
-  projectId: "COLE_AQUI",
-  storageBucket: "COLE_AQUI",
-  messagingSenderId: "COLE_AQUI",
-  appId: "COLE_AQUI"
+  apiKey: "AIzaSyBO0Ml85drfObZMl00FGGskR9bqHVkQ02k",
+  authDomain: "studychat-saas.firebaseapp.com",
+  projectId: "studychat-saas",
+  storageBucket: "studychat-saas.firebasestorage.app",
+  messagingSenderId: "336469459364",
+  appId: "1:336469459364:web:2767036983bcb1f6ff0131"
 };
 
-// Inicializa
+// Inicializa Firebase
 const app = initializeApp(firebaseConfig);
 
+// Serviços
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
+// Login Google
 const provider = new GoogleAuthProvider();
 
 export function loginGoogle() {
-    return signInWithPopup(auth, provider);
+  return signInWithPopup(auth, provider);
 }
 
 export function logout() {
-    return signOut(auth);
+  return signOut(auth);
 }
 
 export function usuarioLogado(callback) {
-    onAuthStateChanged(auth, callback);
+  onAuthStateChanged(auth, callback);
 }
