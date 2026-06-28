@@ -1,18 +1,18 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+// Importa Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  getFirestore
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+// Configuração do seu projeto
 const firebaseConfig = {
   apiKey: "COLE_AQUI",
   authDomain: "COLE_AQUI",
@@ -22,30 +22,22 @@ const firebaseConfig = {
   appId: "COLE_AQUI"
 };
 
+// Inicializa
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
 
-// LOGIN GOOGLE
 export function loginGoogle() {
-  return signInWithPopup(auth, provider);
+    return signInWithPopup(auth, provider);
 }
 
-// USUÁRIO LOGADO
-export function observarUsuario(callback) {
-  onAuthStateChanged(auth, callback);
+export function logout() {
+    return signOut(auth);
 }
 
-// SALVAR PROGRESSO
-export async function salvarProgresso(userId, data) {
-  await setDoc(doc(db, "usuarios", userId), data);
-}
-
-// CARREGAR PROGRESSO
-export async function carregarProgresso(userId) {
-  const ref = doc(db, "usuarios", userId);
-  const snap = await getDoc(ref);
-  return snap.exists() ? snap.data() : null;
+export function usuarioLogado(callback) {
+    onAuthStateChanged(auth, callback);
 }
