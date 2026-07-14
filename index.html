@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Mágico</title>
+    <title>Editor Mágico Simples</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,7 +59,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Editor Mágico</h1>
+        <h1>Editor Mágico Simples</h1>
         <p>Gerador de conteúdo para redes sociais em um clique</p>
         
         <form id="generatorForm">
@@ -73,17 +73,6 @@
             <label for="profile">Perfil:</label>
             <input type="text" id="profile" placeholder="Nome do perfil">
             
-            <label for="tone">Tom de voz:</label>
-            <select id="tone">
-                <option value="profissional">Profissional</option>
-                <option value="informal">Informal</option>
-                <option value="humor">Humor</option>
-                <option value="educativo">Educativo</option>
-            </select>
-            
-            <label for="hashtags">Hashtags (separadas por vírgula):</label>
-            <input type="text" id="hashtags" placeholder="#hashtag1, #hashtag2, #hashtag3">
-            
             <button type="submit">Gerar Conteúdo</button>
         </form>
         
@@ -91,142 +80,37 @@
     </div>
 
     <script>
-        // Post generator logic
-        class PostGenerator {
-            generate(category, data) {
-                const templates = {
-                    instagram: `
-# {{ title }}
-{{ profile }} | {{ date }}
-## Sobre
-{{ summary }}
-
-### Dicas importantes
-{% for tip in tips %}
-- {{ tip }}
-{% endfor %}
-
-## Como fazer
-{% for step in steps %}
-{{ step }}
-{% endfor %}
-
-## Recursos
-{% for resource in resources %}
-- {{ resource }}
-{% endfor %}
-
-{{ hashtags }}
-`,
-                    facebook: `
-# {{ title }}
-{{ profile }} | {{ date }}
-## Introdução
-{{ intro }}
-
-### O que você vai aprender
-{% for topic in topics %}
-- {{ topic }}
-{% endfor %}
-
-## Passo a passo
-{% for step in steps %}
-{{ step }}
-{% endfor %}
-
-## Comentários
-{% for comment in comments %}
-- {{ comment }}
-{% endfor %}
-
-{{ hashtags }}
-`,
-                    twitter: `
-# {{ title }}
-{{ profile }} | {{ date }}
-## Resumo
-{{ summary }}
-
-### Pontos principais
-{% for point in points %}
-- {{ point }}
-{% endfor %}
-
-## Links úteis
-{% for link in links %}
-- {{ link }}
-{% endfor %}
-
-{{ hashtags }}
-`
-                };
-                
-                if (!templates[category]) {
-                    return `Categoria desconhecida: ${category}`;
-                }
-                
-                const template = templates[category];
-                const date = new Date().toISOString().split('T')[0];
-                const postData = {...data, date};
-                
-                // Replace placeholders
-                let result = template;
-                Object.keys(postData).forEach(key => {
-                    result = result.replaceAll(`{{ ${key} }}`, postData[key] || '');
-                });
-                
-                // Process Jinja-style loops
-                result = this._processLoops(result, data);
-                
-                return result;
-            }
-
-            _processLoops(template, data) {
-                // Handle {% for %} loops
-                return template.replace(/{% for (\w+) in (\w+) %}(.*?){% endfor %}/gs, (match, varName, arrayName, content) => {
-                    const items = data[arrayName] || [];
-                    return items.map(item => {
-                        let result = content;
-                        result = result.replaceAll(`{{ ${varName} }}`, item);
-                        return result;
-                    }).join('\n');
-                });
-            }
-        }
-
-        // Initialize
-        const generator = new PostGenerator();
-
-        // Form submission handler
+        // Simple post generator
         document.getElementById('generatorForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
             const formData = new FormData(e.target);
-            const data = {
-                title: formData.get('profile'),
-                profile: formData.get('profile'),
-                tone: formData.get('tone'),
-                hashtags: formData.get('hashtags').split(',').map(h => h.trim()).join(' '),
-                summary: `Este post aborda ${formData.get('profile')} com foco em ${formData.get('tone')}.`,
-                tips: ['Dica 1', 'Dica 2', 'Dica 3'],
-                steps: ['Passo 1', 'Passo 2', 'Passo 3'],
-                resources: ['Recurso 1', 'Recurso 2'],
-                intro: `Bem-vindo ao post sobre ${formData.get('profile')}!`,
-                topics: ['Tema 1', 'Tema 2', 'Tema 3'],
-                comments: ['Comentário 1', 'Comentário 2'],
-                points: ['Ponto 1', 'Ponto 2', 'Ponto 3'],
-                links: ['Link 1', 'Link 2']
-            };
+            const profile = formData.get('profile');
+            const category = formData.get('category');
+            
+            // Generate a simple post
+            const content = `
+# ${profile} - Post Automático
+Gerado em ${new Date().toLocaleDateString('pt-BR')}
+## Sobre
+Este post foi gerado automaticamente para o ${profile}.
 
-            try {
-                const category = formData.get('category');
-                const content = generator.generate(category, data);
-                
-                document.getElementById('result').textContent = content;
-            } catch (err) {
-                document.getElementById('result').textContent = `Erro: ${err.message}`;
-            }
+### Dicas importantes
+- Mantenha seu conteúdo atualizado
+- Interaja com seus seguidores
+- Use hashtags relevantes
+
+## Como fazer
+1. Acesse sua conta de ${category}
+2. Crie um novo post
+3. Cole este conteúdo
+4. Publique!
+
+${category === 'instagram' ? '#'+profile : ''}
+`;
+            
+            document.getElementById('result').textContent = content;
         });
     </script>
 </body>
-                </html>
+</html>
