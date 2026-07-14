@@ -1,162 +1,37 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Mágico Automático</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        input, select, button {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #result {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #f8f9fa;
-            white-space: pre-wrap;
-            font-family: monospace;
-        }
-    </style>
+  <title>IA Chat</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Editor Mágico Automático</h1>
-        <p>Gerador automático de conteúdo para redes sociais</p>
-        
-        <form id="generatorForm">
-            <label for="category">Categoria:</label>
-            <select id="category">
-                <option value="news">Notícias</option>
-                <option value="tech">Tecnologia</option>
-                <option value="business">Negócios</option>
-                <option value="sports">Esportes</option>
-            </select>
-            
-            <label for="keywords">Palavras-chave (separadas por vírgula):</label>
-            <input type="text" id="keywords" placeholder="notícia, tecnologia, negócios">
-            
-            <label for="tone">Tom de voz:</label>
-            <select id="tone">
-                <option value="profissional">Profissional</option>
-                <option value="informal">Informal</option>
-                <option value="humor">Humor</option>
-                <option value="educativo">Educativo</option>
-            </select>
-            
-            <button type="submit">Gerar Conteúdo</button>
-        </form>
-        
-        <div id="result"></div>
-    </div>
+  <div id="chat">
+    <ul id="messages"></ul>
+    <form id="message-form">
+      <input type="text" id="message-input" placeholder="Digite sua mensagem...">
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
 
-    <script>
-        // News post generator
-        document.getElementById('generatorForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            const data = {
-                category: formData.get('category'),
-                keywords: formData.get('keywords').split(',').map(k => k.trim()),
-                tone: formData.get('tone')
-            };
-            
-            // Generate content based on category
-            let content = '';
-            if (data.category === 'news') {
-                content = generateNews(data);
-            } else {
-                content = generateGeneric(data);
-            }
-            
-            document.getElementById('result').textContent = content;
-        });
+  <script>
+    const messages = document.getElementById('messages');
+    const form = document.getElementById('message-form');
+    const input = document.getElementById('message-input');
 
-        function generateNews(data) {
-            const keywords = data.keywords.join(', ');
-            return `
-# ${data.keywords[0]} em Destaque
-${new Date().toLocaleDateString('pt-BR')}
-## Resumo
-Este artigo cobre as principais notícias relacionadas a ${keywords} com foco em ${data.tone}.
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = input.value;
+      input.value = '';
 
-### Principais pontos
-- Ponto 1
-- Ponto 2
-- Ponto 3
+      // Envia mensagem para backend
+      const response = await axios.post('http://localhost:8080/ask', { prompt: message });
+      const aiMessage = response.data.text;
 
-## Fontes
-- Fonte 1
-- Fonte 2
-
-#hashtag1 #hashtag2
-`.trim();
-        }
-
-        function generateGeneric(data) {
-            const keyword = data.keywords[0];
-            return `
-# ${keyword} - ${data.tone}
-${new Date().toLocaleDateString('pt-BR')}
-## Introdução
-Este artigo discute ${keyword} com foco em ${data.tone}.
-
-### O que você vai aprender
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-## Passo a passo
-1. Passo 1
-2. Passo 2
-3. Passo 3
-
-## Comentários
-- Comentário 1
-- Comentário 2
-
-#hashtag1 #hashtag2
-`.trim();
-        }
-    </script>
+      // Exibe resposta da IA
+      const li = document.createElement('li');
+      li.textContent = aiMessage;
+      messages.appendChild(li);
+    });
+  </script>
 </body>
-    </html>
+</html>
