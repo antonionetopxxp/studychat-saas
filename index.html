@@ -73,9 +73,6 @@
             <label for="profile">Perfil:</label>
             <input type="text" id="profile" placeholder="Nome do perfil">
             
-            <label for="keywords">Palavras-chave (separadas por vírgula):</label>
-            <input type="text" id="keywords" placeholder="palavra1, palavra2, palavra3">
-            
             <label for="tone">Tom de voz:</label>
             <select id="tone">
                 <option value="profissional">Profissional</option>
@@ -206,16 +203,15 @@
             
             const formData = new FormData(e.target);
             const data = {
-                title: `${formData.get('profile')} - ${formData.get('keywords')}`,
+                title: formData.get('profile'),
                 profile: formData.get('profile'),
-                keywords: formData.get('keywords').split(',').map(k => k.trim()),
                 tone: formData.get('tone'),
                 hashtags: formData.get('hashtags').split(',').map(h => h.trim()).join(' '),
-                summary: `Este post aborda ${formData.get('keywords')} com foco em ${formData.get('tone')}.`,
+                summary: `Este post aborda ${formData.get('profile')} com foco em ${formData.get('tone')}.`,
                 tips: ['Dica 1', 'Dica 2', 'Dica 3'],
                 steps: ['Passo 1', 'Passo 2', 'Passo 3'],
                 resources: ['Recurso 1', 'Recurso 2'],
-                intro: `Bem-vindo ao post sobre ${formData.get('keywords')}!`,
+                intro: `Bem-vindo ao post sobre ${formData.get('profile')}!`,
                 topics: ['Tema 1', 'Tema 2', 'Tema 3'],
                 comments: ['Comentário 1', 'Comentário 2'],
                 points: ['Ponto 1', 'Ponto 2', 'Ponto 3'],
@@ -233,4 +229,4 @@
         });
     </script>
 </body>
-</html>
+                </html>
