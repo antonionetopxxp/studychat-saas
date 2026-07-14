@@ -3,35 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Generator</title>
+    <title>Editor Mágico</title>
     <style>
+        /* Base styles */
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
             background-color: #f5f5f5;
         }
         .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
         h1 {
             color: #333;
             text-align: center;
         }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        
+        /* Form */
+        .form-group {
+            margin-bottom: 15px;
         }
         label {
+            display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        input, select, textarea, button {
+        input, select, textarea {
+            width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -40,151 +50,200 @@
         button {
             background-color: #007bff;
             color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
             transition: background-color 0.3s;
         }
         button:hover {
             background-color: #0056b3;
         }
+        
+        /* Result */
         #result {
             margin-top: 20px;
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            background-color: #f8f9fa;
+            background-color: white;
             white-space: pre-wrap;
             font-family: monospace;
         }
-        .history-item {
+        
+        /* Testimonials */
+        .testimonials {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .testimonial {
             padding: 10px;
             border-bottom: 1px solid #eee;
         }
-        .history-item:last-child {
+        .testimonial:last-child {
             border-bottom: none;
+        }
+        .testimonial strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Automatic Post Generator</h1>
+        <header>
+            <h1>Editor Mágico</h1>
+            <p>Gerador de conteúdo para redes sociais em um clique</p>
+        </header>
         
         <form id="generatorForm">
-            <label for="category">Category:</label>
-            <select id="category">
-                <option value="tech">Technology</option>
-                <option value="opinion">Opinion</option>
-                <option value="business">Business</option>
-                <option value="tutorials">Tutorials</option>
-            </select>
+            <div class="form-group">
+                <label for="category">Categoria:</label>
+                <select id="category">
+                    <option value="instagram">Instagram</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="twitter">Twitter</option>
+                </select>
+            </div>
             
-            <label for="title">Title:</label>
-            <input type="text" id="title" placeholder="Enter post title">
+            <div class="form-group">
+                <label for="profile">Perfil:</label>
+                <input type="text" id="profile" placeholder="Nome do perfil">
+            </div>
             
-            <label for="author">Author:</label>
-            <input type="text" id="author" placeholder="Your name">
+            <div class="form-group">
+                <label for="keywords">Palavras-chave (separadas por vírgula):</label>
+                <input type="text" id="keywords" placeholder="palavra1, palavra2, palavra3">
+            </div>
             
-            <label for="tags">Tags (comma-separated):</label>
-            <input type="text" id="tags" placeholder="tag1, tag2, tag3">
+            <div class="form-group">
+                <label for="tone">Tom de voz:</label>
+                <select id="tone">
+                    <option value="profissional">Profissional</option>
+                    <option value="informal">Informal</option>
+                    <option value="humor">Humor</option>
+                    <option value="educativo">Educativo</option>
+                </select>
+            </div>
             
-            <label for="content">Content Preview:</label>
-            <textarea id="content" rows="4" placeholder="Enter post content preview..."></textarea>
+            <div class="form-group">
+                <label for="hashtags">Hashtags (separadas por vírgula):</label>
+                <input type="text" id="hashtags" placeholder="#hashtag1, #hashtag2, #hashtag3">
+            </div>
             
-            <button type="submit">Generate Post</button>
+            <button type="submit">Gerar Conteúdo</button>
         </form>
         
         <div id="result"></div>
         
-        <h2>Post History</h2>
-        <div id="history"></div>
+        <div class="testimonials">
+            <h2>Depoimentos</h2>
+            <div class="testimonial">
+                <strong>Thiele</strong>
+                "Tem me ajudado mto nas minhas publicações, reamente funciona. Gera post completo de acordo com as suas necessidades. O suporte é espetacular."
+            </div>
+            <div class="testimonial">
+                <strong>Rejane</strong>
+                "Estou extremamente satisfeita com a Galil AI. Eles oferecem um serviço excepcional, com uma equipe altamente profissional e dedicada."
+            </div>
+            <!-- More testimonials omitted for brevity -->
+        </div>
     </div>
+    
+    <footer>
+        <p>GalilAI Inteligência Artificial LTDA</p>
+        <p>Avenida Professor Osmar Cunha, 416, Sala 1108, Florianópolis, SC, Brazil, 88040600</p>
+        <p>© 2026 GalilAI</p>
+    </footer>
 
     <script>
         // Post generator logic
         class PostGenerator {
             constructor() {
                 this.templates = {
-                    tech: `
+                    instagram: `
 # {{ title }}
-{{ author }} | {{ date }}
-## Overview
+{{ profile }} | {{ date }}
+## Sobre
 {{ summary }}
 
-### Key Points
-{% for point in points %}
-- {{ point }}
+### Dicas importantes
+{% for tip in tips %}
+- {{ tip }}
 {% endfor %}
 
-## Implementation
-\`\`\`python
-{{ code_block }}
-\`\`\`
-
-## References
-{% for ref in references %}
-- {{ ref }}
-{% endfor %}
-`,
-                    opinion: `
-# {{ title }}
-{{ author }} | {{ date }}
-## My Perspective
-{{ content }}
-
-### Supporting Evidence
-{% for evidence in evidence %}
-- {{ evidence }}
-{% endfor %}
-
-## Conclusion
-{{ conclusion }}
-`,
-                    business: `
-# {{ title }}
-{{ author }} | {{ date }}
-## Executive Summary
-{{ summary }}
-
-### Market Analysis
-{% for analysis in analyses %}
-- {{ analysis }}
-{% endfor %}
-
-## Strategic Recommendations
-{% for rec in recommendations %}
-- {{ rec }}
-{% endfor %}
-
-## Financial Impact
-{{ financial_impact }}
-`,
-                    tutorials: `
-# {{ title }}
-{{ author }} | {{ date }}
-## Introduction
-{{ intro }}
-
-### Prerequisites
-{% for prereq in prerequisites %}
-- {{ prereq }}
-{% endfor %}
-
-## Step-by-Step Guide
+## Como fazer
 {% for step in steps %}
 {{ step }}
 {% endfor %}
 
-## Resources
+## Recursos
 {% for resource in resources %}
 - {{ resource }}
 {% endfor %}
+
+{{ hashtags }}
+`,
+                    facebook: `
+# {{ title }}
+{{ profile }} | {{ date }}
+## Introdução
+{{ intro }}
+
+### O que você vai aprender
+{% for topic in topics %}
+- {{ topic }}
+{% endfor %}
+
+## Passo a passo
+{% for step in steps %}
+{{ step }}
+{% endfor %}
+
+## Comentários
+{% for comment in comments %}
+- {{ comment }}
+{% endfor %}
+
+{{ hashtags }}
+`,
+                    twitter: `
+# {{ title }}
+{{ profile }} | {{ date }}
+## Resumo
+{{ summary }}
+
+### Pontos principais
+{% for point in points %}
+- {{ point }}
+{% endfor %}
+
+## Links úteis
+{% for link in links %}
+- {{ link }}
+{% endfor %}
+
+{{ hashtags }}
 `
                 };
-                this.history = JSON.parse(localStorage.getItem('postHistory') || '[]');
             }
 
             generate(category, data) {
                 if (!this.templates[category]) {
-                    throw new Error(`Unknown category: ${category}`);
+                    throw new Error(`Categoria desconhecida: ${category}`);
                 }
                 
                 const template = this.templates[category];
@@ -200,14 +259,6 @@
                 // Process Jinja-style loops
                 result = this._processLoops(result, data);
                 
-                // Add to history
-                this.history.unshift({
-                    timestamp: date,
-                    ...data,
-                    category
-                });
-                localStorage.setItem('postHistory', JSON.stringify(this.history.slice(0, 10)));
-                
                 return result;
             }
 
@@ -222,10 +273,6 @@
                     }).join('\n');
                 });
             }
-
-            getHistory() {
-                return this.history;
-            }
         }
 
         // Initialize
@@ -237,23 +284,20 @@
             
             const formData = new FormData(e.target);
             const data = {
-                title: formData.get('title'),
-                author: formData.get('author'),
-                tags: formData.get('tags').split(',').map(t => t.trim()),
-                content: formData.get('content'),
-                summary: formData.get('content').substring(0, 100) + '...',
-                points: ['Key Point 1', 'Key Point 2', 'Key Point 3'],
-                code_block: 'print("Hello, World!")',
-                references: ['Reference 1', 'Reference 2'],
-                evidence: ['Evidence 1', 'Evidence 2'],
-                conclusion: 'Final thoughts here.',
-                analyses: ['Market Analysis 1', 'Market Analysis 2'],
-                recommendations: ['Recommendation 1', 'Recommendation 2'],
-                financial_impact: '$1M potential impact',
-                intro: 'Introduction content here.',
-                prerequisites: ['Prereq 1', 'Prereq 2'],
-                steps: ['Step 1', 'Step 2', 'Step 3'],
-                resources: ['Resource 1', 'Resource 2']
+                title: `${formData.get('profile')} - ${formData.get('keywords')}`,
+                profile: formData.get('profile'),
+                keywords: formData.get('keywords').split(',').map(k => k.trim()),
+                tone: formData.get('tone'),
+                hashtags: formData.get('hashtags').split(',').map(h => h.trim()).join(' '),
+                summary: `Este post aborda ${formData.get('keywords')} com foco em ${formData.get('tone')}.`,
+                tips: ['Dica 1', 'Dica 2', 'Dica 3'],
+                steps: ['Passo 1', 'Passo 2', 'Passo 3'],
+                resources: ['Recurso 1', 'Recurso 2'],
+                intro: `Bem-vindo ao post sobre ${formData.get('keywords')}!`,
+                topics: ['Tema 1', 'Tema 2', 'Tema 3'],
+                comments: ['Comentário 1', 'Comentário 2'],
+                points: ['Ponto 1', 'Ponto 2', 'Ponto 3'],
+                links: ['Link 1', 'Link 2']
             };
 
             try {
@@ -261,34 +305,10 @@
                 const content = generator.generate(category, data);
                 
                 document.getElementById('result').textContent = content;
-                
-                // Update history display
-                this._updateHistoryDisplay();
             } catch (err) {
-                document.getElementById('result').textContent = `Error: ${err.message}`;
+                document.getElementById('result').textContent = `Erro: ${err.message}`;
             }
         });
-
-        // History display
-        function _updateHistoryDisplay() {
-            const history = generator.getHistory();
-            const container = document.getElementById('history');
-            
-            if (history.length === 0) {
-                container.textContent = 'No posts generated yet.';
-                return;
-            }
-            
-            container.innerHTML = history.map(item => `
-                <div class="history-item">
-                    <strong>${item.title}</strong> (${item.category})<br>
-                    ${item.timestamp} - ${item.author}
-                </div>
-            `).join('');
-        }
-
-        // Initial history load
-        _updateHistoryDisplay();
     </script>
 </body>
 </html>
