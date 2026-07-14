@@ -1,47 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor Mágico</title>
     <style>
-        /* Base styles */
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-        .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #f5f5f5;
         }
-        
-        /* Header */
-        header {
+        .container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
         }
         h1 {
             color: #333;
             text-align: center;
         }
-        
-        /* Form */
-        .form-group {
-            margin-bottom: 15px;
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
         label {
-            display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        input, select, textarea {
-            width: 100%;
+        input, select, textarea, button {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -50,130 +40,64 @@
         button {
             background-color: #007bff;
             color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
             transition: background-color 0.3s;
         }
         button:hover {
             background-color: #0056b3;
         }
-        
-        /* Result */
         #result {
             margin-top: 20px;
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            background-color: white;
+            background-color: #f8f9fa;
             white-space: pre-wrap;
             font-family: monospace;
-        }
-        
-        /* Testimonials */
-        .testimonials {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 20px;
-        }
-        .testimonial {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .testimonial:last-child {
-            border-bottom: none;
-        }
-        .testimonial strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #666;
-            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Editor Mágico</h1>
-            <p>Gerador de conteúdo para redes sociais em um clique</p>
-        </header>
+        <h1>Editor Mágico</h1>
+        <p>Gerador de conteúdo para redes sociais em um clique</p>
         
         <form id="generatorForm">
-            <div class="form-group">
-                <label for="category">Categoria:</label>
-                <select id="category">
-                    <option value="instagram">Instagram</option>
-                    <option value="facebook">Facebook</option>
-                    <option value="twitter">Twitter</option>
-                </select>
-            </div>
+            <label for="category">Categoria:</label>
+            <select id="category">
+                <option value="instagram">Instagram</option>
+                <option value="facebook">Facebook</option>
+                <option value="twitter">Twitter</option>
+            </select>
             
-            <div class="form-group">
-                <label for="profile">Perfil:</label>
-                <input type="text" id="profile" placeholder="Nome do perfil">
-            </div>
+            <label for="profile">Perfil:</label>
+            <input type="text" id="profile" placeholder="Nome do perfil">
             
-            <div class="form-group">
-                <label for="keywords">Palavras-chave (separadas por vírgula):</label>
-                <input type="text" id="keywords" placeholder="palavra1, palavra2, palavra3">
-            </div>
+            <label for="keywords">Palavras-chave (separadas por vírgula):</label>
+            <input type="text" id="keywords" placeholder="palavra1, palavra2, palavra3">
             
-            <div class="form-group">
-                <label for="tone">Tom de voz:</label>
-                <select id="tone">
-                    <option value="profissional">Profissional</option>
-                    <option value="informal">Informal</option>
-                    <option value="humor">Humor</option>
-                    <option value="educativo">Educativo</option>
-                </select>
-            </div>
+            <label for="tone">Tom de voz:</label>
+            <select id="tone">
+                <option value="profissional">Profissional</option>
+                <option value="informal">Informal</option>
+                <option value="humor">Humor</option>
+                <option value="educativo">Educativo</option>
+            </select>
             
-            <div class="form-group">
-                <label for="hashtags">Hashtags (separadas por vírgula):</label>
-                <input type="text" id="hashtags" placeholder="#hashtag1, #hashtag2, #hashtag3">
-            </div>
+            <label for="hashtags">Hashtags (separadas por vírgula):</label>
+            <input type="text" id="hashtags" placeholder="#hashtag1, #hashtag2, #hashtag3">
             
             <button type="submit">Gerar Conteúdo</button>
         </form>
         
         <div id="result"></div>
-        
-        <div class="testimonials">
-            <h2>Depoimentos</h2>
-            <div class="testimonial">
-                <strong>Thiele</strong>
-                "Tem me ajudado mto nas minhas publicações, reamente funciona. Gera post completo de acordo com as suas necessidades. O suporte é espetacular."
-            </div>
-            <div class="testimonial">
-                <strong>Rejane</strong>
-                "Estou extremamente satisfeita com a Galil AI. Eles oferecem um serviço excepcional, com uma equipe altamente profissional e dedicada."
-            </div>
-            <!-- More testimonials omitted for brevity -->
-        </div>
     </div>
-    
-    <footer>
-        <p>GalilAI Inteligência Artificial LTDA</p>
-        <p>Avenida Professor Osmar Cunha, 416, Sala 1108, Florianópolis, SC, Brazil, 88040600</p>
-        <p>© 2026 GalilAI</p>
-    </footer>
 
     <script>
         // Post generator logic
         class PostGenerator {
-            constructor() {
-                this.templates = {
+            generate(category, data) {
+                const templates = {
                     instagram: `
 # {{ title }}
 {{ profile }} | {{ date }}
@@ -239,14 +163,12 @@
 {{ hashtags }}
 `
                 };
-            }
-
-            generate(category, data) {
-                if (!this.templates[category]) {
-                    throw new Error(`Categoria desconhecida: ${category}`);
+                
+                if (!templates[category]) {
+                    return `Categoria desconhecida: ${category}`;
                 }
                 
-                const template = this.templates[category];
+                const template = templates[category];
                 const date = new Date().toISOString().split('T')[0];
                 const postData = {...data, date};
                 
