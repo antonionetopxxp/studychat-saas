@@ -1,576 +1,294 @@
-```html
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyChat Pro</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="manifest" href="manifest.json">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <script defer src="script.js"></script>
+    <title>Post Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, select, textarea, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
-
 <body>
-
-<div id="loading">
-
-    <div class="loader"></div>
-
-    <h2>Carregando StudyChat...</h2>
-
-</div>
-
-<div id="app">
-
-<!-- ================= SIDEBAR ================= -->
-
-<aside class="sidebar">
-
-<div class="logo">
-
-<h1>📚 StudyChat</h1>
-
-<p>Concurso SEDES DF</p>
-
-</div>
-
-<div class="perfil">
-
-<img src="img/avatar.png" id="avatar">
-
-<h3>Antonio Neto</h3>
-
-<p>Assistente Administrativo</p>
-
-</div>
-
-<div class="progresso">
-
-<span>Nível de Estudos</span>
-
-<div class="barra">
-
-<div class="barra-preenchimento" id="xp"></div>
-
-</div>
-
-<p id="nivel">Nível 1</p>
-
-</div>
-
-<nav>
-
-<button class="menu ativo">
-
-🏠 Início
-
-</button>
-
-<button class="menu">
-
-💬 Chat
-
-</button>
-
-<button class="menu">
-
-📝 Questões
-
-</button>
-
-<button class="menu">
-
-📂 Biblioteca
-
-</button>
-
-<button class="menu">
-
-🧠 FlashCards
-
-</button>
-
-<button class="menu">
-
-⭐ Favoritos
-
-</button>
-
-<button class="menu">
-
-📊 Estatísticas
-
-</button>
-
-<button class="menu">
-
-⏱ Simulado
-
-</button>
-
-<button class="menu">
-
-⚙ Configurações
-
-</button>
-
-</nav>
-
-</aside>
-
-<!-- ================= CHAT ================= -->
-
-<main class="chat">
-
-<header class="topo">
-
-<div>
-
-<h2>Assistente de Estudos</h2>
-
-<p id="materiaAtual">
-
-Constituição Federal
-
-</p>
-
-</div>
-
-<div class="acoesTopo">
-
-<button id="modoEscuro">
-
-🌙
-
-</button>
-
-<button id="reiniciar">
-
-♻
-
-</button>
-
-</div>
-
-</header>
-
-<section id="mensagens">
-
-<div class="mensagem bot">
-
-<div class="icone">
-
-🤖
-
-</div>
-
-<div class="texto">
-
-<h4>StudyChat</h4>
-
-<p>
-
-Olá Antonio!
-
-Vamos estudar?
-
-Clique em "Nova Questão".
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<footer class="rodapeChat">
-
-<div class="questaoAtual">
-
-<p id="pergunta">
-
-Clique em Nova Questão.
-
-</p>
-
-</div>
-
-<div class="alternativas">
-
-<button class="alternativa" data="A">
-
-A
-
-</button>
-
-<button class="alternativa" data="B">
-
-B
-
-</button>
-
-<button class="alternativa" data="C">
-
-C
-
-</button>
-
-<button class="alternativa" data="D">
-
-D
-
-</button>
-
-</div>
-
-<div class="acoesQuestao">
-
-<button id="novaQuestao">
-
-Nova Questão
-
-</button>
-
-<button id="dica">
-
-💡 Dica
-
-</button>
-
-<button id="explicacao">
-
-📖 Explicação
-
-</button>
-
-<button id="favoritar">
-
-⭐
-
-</button>
-
-<button id="proxima">
-
-➡
-
-</button>
-
-</div>
-
-</footer>
-
-</main>
-
-<!-- ================= PAINEL ================= -->
-
-<aside class="painel">
-
-<div class="card">
-
-<h3>Questões</h3>
-
-<h1 id="total">
-
-0
-
-</h1>
-
-</div>
-
-<div class="card">
-
-<h3>Acertos</h3>
-
-<h1 id="acertos">
-
-0
-
-</h1>
-
-</div>
-
-<div class="card">
-
-<h3>Erros</h3>
-
-<h1 id="erros">
-
-0
-
-</h1>
-
-</div>
-
-<div class="card">
-
-<h3>Aproveitamento</h3>
-
-<h1 id="percentual">
-
-0%
-
-</h1>
-
-</div>
-
-<div class="card">
-
-<h3>Tempo</h3>
-
-<h1 id="tempo">
-
-00:00
-
-</h1>
-
-</div>
-
-<div class="card">
-
-<h3>Sequência</h3>
-
-<h1 id="streak">
-
-0
-
-</h1>
-
-</div>
-
-</aside>
-
-</div>
-
-<!-- ================= BIBLIOTECA ================= -->
-
-<div id="biblioteca" class="modal">
-
-<div class="janela">
-
-<h2>Minha Biblioteca</h2>
-
-<input type="file"
-multiple
-accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp4,.mp3">
-
-<div id="listaArquivos">
-
-</div>
-
-<button class="fechar">
-
-Fechar
-
-</button>
-
-</div>
-
-</div>
-
-<!-- ================= FLASHCARDS ================= -->
-
-<div id="flashcards" class="modal">
-
-<div class="janela">
-
-<h2>FlashCards</h2>
-
-<div id="listaFlash">
-
-</div>
-
-<button class="fechar">
-
-Fechar
-
-</button>
-
-</div>
-
-</div>
-
-<!-- ================= ESTATÍSTICAS ================= -->
-
-<div id="estatisticas" class="modal">
-
-<div class="janela">
-
-<h2>Meu Desempenho</h2>
-
-<canvas id="grafico"></canvas>
-
-<button class="fechar">
-
-Fechar
-
-</button>
-
-</div>
-
-</div>
-
-<!-- ================= IMPORTADOR JSON ================= -->
-<div id="importador" class="modal">
-    <div class="janela">
-        <h2>Importar Questões (JSON)</h2>
-
-        <p>Envie um arquivo JSON com suas questões</p>
-
-        <input type="file" id="fileJson" accept=".json">
-
-        <textarea id="previewJson" placeholder="Pré-visualização..." readonly></textarea>
-
-        <button id="btnImportar">Importar</button>
-
-        <button class="fechar">Fechar</button>
+    <div class="container">
+        <h1>Automatic Post Generator</h1>
+        
+        <form id="generatorForm">
+            <label for="category">Category:</label>
+            <select id="category">
+                <option value="tech">Technology</option>
+                <option value="opinion">Opinion</option>
+                <option value="business">Business</option>
+                <option value="tutorials">Tutorials</option>
+            </select>
+            
+            <label for="title">Title:</label>
+            <input type="text" id="title" placeholder="Enter post title">
+            
+            <label for="author">Author:</label>
+            <input type="text" id="author" placeholder="Your name">
+            
+            <label for="tags">Tags (comma-separated):</label>
+            <input type="text" id="tags" placeholder="tag1, tag2, tag3">
+            
+            <label for="content">Content Preview:</label>
+            <textarea id="content" rows="4" placeholder="Enter post content preview..."></textarea>
+            
+            <button type="submit">Generate Post</button>
+        </form>
+        
+        <div id="result"></div>
+        
+        <h2>Post History</h2>
+        <div id="history"></div>
     </div>
-</div>
 
-<!-- ================= PAINEL ADMIN ================= -->
-<div id="admin" class="modal">
-    <div class="janela">
-        <h2>Painel Administrativo</h2>
+    <script>
+        // Post generator logic
+        class PostGenerator {
+            constructor() {
+                this.templates = {
+                    tech: `
+# {{ title }}
+{{ author }} | {{ date }}
+## Overview
+{{ summary }}
 
-        <input type="text" id="novaPergunta" placeholder="Nova pergunta">
+### Key Points
+{% for point in points %}
+- {{ point }}
+{% endfor %}
 
-        <input type="text" id="opA" placeholder="Alternativa A">
-        <input type="text" id="opB" placeholder="Alternativa B">
-        <input type="text" id="opC" placeholder="Alternativa C">
-        <input type="text" id="opD" placeholder="Alternativa D">
+## Implementation
+\`\`\`python
+{{ code_block }}
+\`\`\`
 
-        <input type="text" id="correta" placeholder="Resposta correta (A/B/C/D)">
+## References
+{% for ref in references %}
+- {{ ref }}
+{% endfor %}
+`,
+                    opinion: `
+# {{ title }}
+{{ author }} | {{ date }}
+## My Perspective
+{{ content }}
 
-        <textarea id="explicacaoAdm" placeholder="Explicação"></textarea>
+### Supporting Evidence
+{% for evidence in evidence %}
+- {{ evidence }}
+{% endfor %}
 
-        <button id="salvarQuestao">Salvar Questão</button>
+## Conclusion
+{{ conclusion }}
+`,
+                    business: `
+# {{ title }}
+{{ author }} | {{ date }}
+## Executive Summary
+{{ summary }}
 
-        <button class="fechar">Fechar</button>
-    </div>
-</div>
+### Market Analysis
+{% for analysis in analyses %}
+- {{ analysis }}
+{% endfor %}
 
-<!-- ================= BUSCA POR MATÉRIA ================= -->
-<div id="busca" class="modal">
-    <div class="janela">
-        <h2>Buscar por Matéria</h2>
+## Strategic Recommendations
+{% for rec in recommendations %}
+- {{ rec }}
+{% endfor %}
 
-        <input type="text" id="inputBusca" placeholder="Ex: Constituição, Português...">
+## Financial Impact
+{{ financial_impact }}
+`,
+                    tutorials: `
+# {{ title }}
+{{ author }} | {{ date }}
+## Introduction
+{{ intro }}
 
-        <div id="resultadosBusca"></div>
+### Prerequisites
+{% for prereq in prerequisites %}
+- {{ prereq }}
+{% endfor %}
 
-        <button class="fechar">Fechar</button>
-    </div>
-</div>
+## Step-by-Step Guide
+{% for step in steps %}
+{{ step }}
+{% endfor %}
 
-<!-- ================= HISTÓRICO ================= -->
-<div id="historico" class="modal">
-    <div class="janela">
-        <h2>Histórico de Respostas</h2>
+## Resources
+{% for resource in resources %}
+- {{ resource }}
+{% endfor %}
+`
+                };
+                this.history = JSON.parse(localStorage.getItem('postHistory') || '[]');
+            }
 
-        <div id="listaHistorico"></div>
+            generate(category, data) {
+                if (!this.templates[category]) {
+                    throw new Error(`Unknown category: ${category}`);
+                }
+                
+                const template = this.templates[category];
+                const date = new Date().toISOString().split('T')[0];
+                const postData = {...data, date};
+                
+                // Replace placeholders
+                let result = template;
+                Object.keys(postData).forEach(key => {
+                    result = result.replaceAll(`{{ ${key} }}`, postData[key] || '');
+                });
+                
+                // Process Jinja-style loops
+                result = this._processLoops(result, data);
+                
+                // Add to history
+                this.history.unshift({
+                    timestamp: date,
+                    ...data,
+                    category
+                });
+                localStorage.setItem('postHistory', JSON.stringify(this.history.slice(0, 10)));
+                
+                return result;
+            }
 
-        <button class="fechar">Fechar</button>
-    </div>
-</div>
+            _processLoops(template, data) {
+                // Handle {% for %} loops
+                return template.replace(/{% for (\w+) in (\w+) %}(.*?){% endfor %}/gs, (match, varName, arrayName, content) => {
+                    const items = data[arrayName] || [];
+                    return items.map(item => {
+                        let result = content;
+                        result = result.replaceAll(`{{ ${varName} }}`, item);
+                        return result;
+                    }).join('\n');
+                });
+            }
 
-<!-- ================= REVISÃO INTELIGENTE ================= -->
-<div id="revisao" class="modal">
-    <div class="janela">
-        <h2>Revisão Inteligente</h2>
+            getHistory() {
+                return this.history;
+            }
+        }
 
-        <p>Questões que você mais errou aparecerão aqui</p>
+        // Initialize
+        const generator = new PostGenerator();
 
-        <div id="listaRevisao"></div>
+        // Form submission handler
+        document.getElementById('generatorForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {
+                title: formData.get('title'),
+                author: formData.get('author'),
+                tags: formData.get('tags').split(',').map(t => t.trim()),
+                content: formData.get('content'),
+                summary: formData.get('content').substring(0, 100) + '...',
+                points: ['Key Point 1', 'Key Point 2', 'Key Point 3'],
+                code_block: 'print("Hello, World!")',
+                references: ['Reference 1', 'Reference 2'],
+                evidence: ['Evidence 1', 'Evidence 2'],
+                conclusion: 'Final thoughts here.',
+                analyses: ['Market Analysis 1', 'Market Analysis 2'],
+                recommendations: ['Recommendation 1', 'Recommendation 2'],
+                financial_impact: '$1M potential impact',
+                intro: 'Introduction content here.',
+                prerequisites: ['Prereq 1', 'Prereq 2'],
+                steps: ['Step 1', 'Step 2', 'Step 3'],
+                resources: ['Resource 1', 'Resource 2']
+            };
 
-        <button class="fechar">Fechar</button>
-    </div>
-</div>
+            try {
+                const category = formData.get('category');
+                const content = generator.generate(category, data);
+                
+                document.getElementById('result').textContent = content;
+                
+                // Update history display
+                this._updateHistoryDisplay();
+            } catch (err) {
+                document.getElementById('result').textContent = `Error: ${err.message}`;
+            }
+        });
 
-<!-- ================= SIMULADO ================= -->
-<div id="simulado" class="modal">
-    <div class="janela">
-        <h2>Simulado Cronometrado</h2>
+        // History display
+        function _updateHistoryDisplay() {
+            const history = generator.getHistory();
+            const container = document.getElementById('history');
+            
+            if (history.length === 0) {
+                container.textContent = 'No posts generated yet.';
+                return;
+            }
+            
+            container.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <strong>${item.title}</strong> (${item.category})<br>
+                    ${item.timestamp} - ${item.author}
+                </div>
+            `).join('');
+        }
 
-        <div class="timer">
-            ⏱ <span id="tempoSimulado">00:00</span>
-        </div>
-
-        <div id="questaoSimulado"></div>
-
-        <button id="finalizarSimulado">Finalizar</button>
-
-        <button class="fechar">Fechar</button>
-    </div>
-</div>
-
-<!-- ================= CALENDÁRIO ================= -->
-<div id="calendario" class="modal">
-    <div class="janela">
-        <h2>Calendário de Estudos</h2>
-
-        <input type="date" id="dataEstudo">
-
-        <textarea id="metaDia" placeholder="O que você vai estudar hoje?"></textarea>
-
-        <button id="salvarMeta">Salvar</button>
-
-        <div id="listaMetas"></div>
-
-        <button class="fechar">Fechar</button>
-    </div>
-</div>
-
-<!-- ================= NOTIFICAÇÕES ================= -->
-<div id="notificacoes" class="modal">
-    <div class="janela">
-        <h2>Notificações</h2>
-
-        <div id="listaNotificacoes"></div>
-
-        <button class="fechar">Fechar</button>
-    </div>
-</div>
-
-<!-- ================= CONFIGURAÇÕES ================= -->
-<div id="config" class="modal">
-    <div class="janela">
-        <h2>Configurações</h2>
-
-        <label>
-            Nome do usuário
-            <input type="text" id="nomeUser">
-        </label>
-
-        <label>
-            Tema escuro
-            <input type="checkbox" id="temaEscuro">
-        </label>
-
-        <label>
-            Notificações
-            <input type="checkbox" id="ativarNotif">
-        </label>
-
-        <label>
-            Resetar progresso
-            <button id="resetarDados">Resetar</button>
-        </label>
-
-        <button class="fechar">Fechar</button>
-    </div>
-</div>
-
+        // Initial history load
+        _updateHistoryDisplay();
+    </script>
 </body>
-
 </html>
-```
