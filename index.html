@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Mágico Simples</title>
+    <title>Editor Mágico Automático</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,7 +31,7 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
-        input, select, textarea, button {
+        input, select, button {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -59,19 +59,28 @@
 </head>
 <body>
     <div class="container">
-        <h1>Editor Mágico Simples</h1>
-        <p>Gerador de conteúdo para redes sociais em um clique</p>
+        <h1>Editor Mágico Automático</h1>
+        <p>Gerador automático de conteúdo para redes sociais</p>
         
         <form id="generatorForm">
             <label for="category">Categoria:</label>
             <select id="category">
-                <option value="instagram">Instagram</option>
-                <option value="facebook">Facebook</option>
-                <option value="twitter">Twitter</option>
+                <option value="news">Notícias</option>
+                <option value="tech">Tecnologia</option>
+                <option value="business">Negócios</option>
+                <option value="sports">Esportes</option>
             </select>
             
-            <label for="profile">Perfil:</label>
-            <input type="text" id="profile" placeholder="Nome do perfil">
+            <label for="keywords">Palavras-chave (separadas por vírgula):</label>
+            <input type="text" id="keywords" placeholder="notícia, tecnologia, negócios">
+            
+            <label for="tone">Tom de voz:</label>
+            <select id="tone">
+                <option value="profissional">Profissional</option>
+                <option value="informal">Informal</option>
+                <option value="humor">Humor</option>
+                <option value="educativo">Educativo</option>
+            </select>
             
             <button type="submit">Gerar Conteúdo</button>
         </form>
@@ -80,37 +89,74 @@
     </div>
 
     <script>
-        // Simple post generator
+        // News post generator
         document.getElementById('generatorForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
             const formData = new FormData(e.target);
-            const profile = formData.get('profile');
-            const category = formData.get('category');
+            const data = {
+                category: formData.get('category'),
+                keywords: formData.get('keywords').split(',').map(k => k.trim()),
+                tone: formData.get('tone')
+            };
             
-            // Generate a simple post
-            const content = `
-# ${profile} - Post Automático
-Gerado em ${new Date().toLocaleDateString('pt-BR')}
-## Sobre
-Este post foi gerado automaticamente para o ${profile}.
-
-### Dicas importantes
-- Mantenha seu conteúdo atualizado
-- Interaja com seus seguidores
-- Use hashtags relevantes
-
-## Como fazer
-1. Acesse sua conta de ${category}
-2. Crie um novo post
-3. Cole este conteúdo
-4. Publique!
-
-${category === 'instagram' ? '#'+profile : ''}
-`;
+            // Generate content based on category
+            let content = '';
+            if (data.category === 'news') {
+                content = generateNews(data);
+            } else {
+                content = generateGeneric(data);
+            }
             
             document.getElementById('result').textContent = content;
         });
+
+        function generateNews(data) {
+            const keywords = data.keywords.join(', ');
+            return `
+# ${data.keywords[0]} em Destaque
+${new Date().toLocaleDateString('pt-BR')}
+## Resumo
+Este artigo cobre as principais notícias relacionadas a ${keywords} com foco em ${data.tone}.
+
+### Principais pontos
+- Ponto 1
+- Ponto 2
+- Ponto 3
+
+## Fontes
+- Fonte 1
+- Fonte 2
+
+#hashtag1 #hashtag2
+`.trim();
+        }
+
+        function generateGeneric(data) {
+            const keyword = data.keywords[0];
+            return `
+# ${keyword} - ${data.tone}
+${new Date().toLocaleDateString('pt-BR')}
+## Introdução
+Este artigo discute ${keyword} com foco em ${data.tone}.
+
+### O que você vai aprender
+- Tópico 1
+- Tópico 2
+- Tópico 3
+
+## Passo a passo
+1. Passo 1
+2. Passo 2
+3. Passo 3
+
+## Comentários
+- Comentário 1
+- Comentário 2
+
+#hashtag1 #hashtag2
+`.trim();
+        }
     </script>
 </body>
-</html>
+    </html>
